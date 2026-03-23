@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\title{COSC 4368 Maze Solver Project \\ Second Check-In Report}
+\author{Your Team Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+The goal of the second check-in was to:
+\begin{enumerate}[itemsep=0.2em]
+    \item load the maze in Python,
+    \item solve the maze without hazards using a naive method,
+    \item visualize the solution,
+    \item load hazards into the maze,
+    \item demonstrate that the hazards function correctly.
+\end{enumerate}
+
+\section*{Maze Representation}
+The maze was represented internally as a 64$\times$64 grid, matching the project specification. Logical cells were navigable positions, while walls were represented as blocked movement edges between neighboring cells. This preserves the original maze image structure while still supporting a 64$\times$64 environment.
+
+\section*{Naive Solve}
+Breadth-First Search (BFS) was used to solve the maze without hazards. BFS was selected because it is simple, deterministic, and guarantees a shortest path in an unweighted grid.
+
+\section*{Visualization}
+The maze and BFS solution path were visualized using \texttt{matplotlib}. The solution path was highlighted in red for contrast.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{maze_no_hazards.png}
+    \caption{Maze loaded without hazards.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{maze_solution.png}
+    \caption{BFS solution path visualized on the maze.}
+\end{figure}
+
+\section*{Hazard Implementation}
+The environment supports:
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Death pits:} immediate death, respawn at the start next turn,
+    \item \textbf{Teleport pads:} deterministic teleport to a fixed destination,
+    \item \textbf{Confusion pads:} inverted controls for the rest of the turn and the following turn.
+\end{itemize}
+
+Hazards were generated automatically at a density of 7\% of navigable cells, which satisfies the required 5--10\% range. A safe path from start to goal was preserved.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{maze_with_hazards.png}
+    \caption{Maze with hazards loaded and displayed.}
+\end{figure}
+
+\section*{Hazard Demonstration}
+The hazard system was demonstrated with three scripted examples:
+\begin{itemize}[itemsep=0.2em]
+    \item stepping on a death pit,
+    \item stepping on a teleport pad,
+    \item stepping on a confusion pad and showing inverted controls.
+\end{itemize}
+
+\section*{Environment API}
+The environment matches the project turn format:
+\begin{itemize}[itemsep=0.2em]
+    \item each turn accepts between 1 and 5 actions,
+    \item actions execute sequentially,
+    \item remaining actions are ignored if the agent dies or reaches the goal,
+    \item the environment returns a \texttt{TurnResult} object with wall hits, current position, death status, confusion status, goal status, teleport status, and actions executed.
+\end{itemize}
+
+\section*{AI Usage Disclosure}
+AI assistance was used during development.
+
+\textbf{Tool used:} ChatGPT
+
+\textbf{Prompts used:}
+\begin{itemize}[itemsep=0.2em]
+    \item ``Help me finish my second check in. I've already coded out the maze construction from the picture. I need to do the rest.''
+    \item ``Give me the full block code for \texttt{maze.py} and let me know if I need to update \texttt{maze\_config.py}.''
+    \item ``Let's finish all the other files now with the corrected \texttt{maze.py} code and have a working demo check in.''
+\end{itemize}
+
+\textbf{How AI performed:}
+The AI helped with scaffolding for the environment, solver, hazard generation, visualization, and report drafting. All code was reviewed, edited, and integrated by the team.
+
+\section*{Conclusion}
+The second check-in requirements were completed by loading the maze in Python, solving the no-hazard maze with BFS, visualizing the solution, loading hazards, and demonstrating the hazard behaviors.
+
+\end{document}
