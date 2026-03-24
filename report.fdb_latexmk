@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1774323947.51843 "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/report.tex" "report.pdf" "report" 1774323948.85505 0
-  "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/report.tex" 1774287665.06233 4163 890d297c172c559a9251ee0baa178183 ""
+["pdflatex"] 1774325539.04921 "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/report.tex" "report.pdf" "report" 1774325540.49629 0
+  "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/report.tex" 1774325538.79859 6386 2c225deecaa8e7f260e41cb3f4433ed7 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -73,6 +73,7 @@
   "/usr/local/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty" 1665067230 13815 760b0c02f691ea230f5359c4e1de23a7 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1716410060 29785 9f93ab201fe5dd053afcc6c1bcf7d266 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg" 1279039959 678 4792914a8f45be57bb98413425e4c7af ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/parskip/parskip.sty" 1615762720 4288 94714aa7f535440f33181fec52a31963 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty" 1576624809 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657483315 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
@@ -80,12 +81,12 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1770959213 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "maze_no_hazards.png" 1774323901.09744 75142 3b34b45b5b0bb4c77c699c755bd1aa3e ""
+  "maze_no_hazards.png" 1774324016.6508 75142 3b34b45b5b0bb4c77c699c755bd1aa3e ""
   "maze_solution.png" 1774288380.00063 83296 d30a2b70a7604cd842f019effd6c01be ""
-  "maze_with_hazards.png" 1774323947.04498 77822 57f286d573b83904bcee41ad33ab82da ""
-  "report.aux" 1774323948.79612 603 461fbb54cb56941acee50b63a1ed4cfc "pdflatex"
-  "report.out" 1774323947.82278 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "report.tex" 1774287665.06233 4163 890d297c172c559a9251ee0baa178183 ""
+  "maze_with_hazards.png" 1774324174.06513 77822 57f286d573b83904bcee41ad33ab82da ""
+  "report.aux" 1774325540.43237 603 461fbb54cb56941acee50b63a1ed4cfc "pdflatex"
+  "report.out" 1774325539.3829 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "report.tex" 1774325538.79859 6386 2c225deecaa8e7f260e41cb3f4433ed7 ""
   (generated)
   "report.aux"
   "report.log"

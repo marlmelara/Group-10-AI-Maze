@@ -7,79 +7,111 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage{parskip}
 
 \title{COSC 4368 Maze Solver Project \\ Second Check-In Report}
-\author{Your Team Name}
-\date{\today}
+\author{Group 15 - Marlon Melara, Ahnaf Murshid, Israel Mummay, Brittany Picazo, Osinachi Enemuoh}
+\date{March 23, 2026}
 
 \begin{document}
 \maketitle
 
-\section*{Objective}
-The goal of the second check-in was to:
-\begin{enumerate}[itemsep=0.2em]
-    \item load the maze in Python,
-    \item solve the maze without hazards using a naive method,
-    \item visualize the solution,
-    \item load hazards into the maze,
-    \item demonstrate that the hazards function correctly.
-\end{enumerate}
+\section*{Introduction}
+
+This report describes the second check-in for the maze solver project. At this stage, the main focus was building a working maze environment from the provided image, solving the maze without hazards, visualizing the solution path, and then integrating hazards into the environment.
+
+The system now supports a full grid-based maze environment with movement constraints, pathfinding, hazard interaction, and visualization of both the maze layout and the agent's behavior.
 
 \section*{Maze Representation}
-The maze was represented internally as a 64$\times$64 grid, matching the project specification. Logical cells were navigable positions, while walls were represented as blocked movement edges between neighboring cells. This preserves the original maze image structure while still supporting a 64$\times$64 environment.
 
-\section*{Naive Solve}
-Breadth-First Search (BFS) was used to solve the maze without hazards. BFS was selected because it is simple, deterministic, and guarantees a shortest path in an unweighted grid.
+The maze is represented internally as a 64$\times$64 logical grid. Each logical cell corresponds to a valid position the agent can occupy, while walls are stored as blocked movement edges between neighboring cells instead of as filled wall cells.
+
+Two arrays are used to store the wall structure:
+
+\begin{itemize}[itemsep=0.2em]
+    \item \texttt{maze\_walls\_right.npy} --- stores whether movement from a cell to the cell on its right is blocked
+    \item \texttt{maze\_walls\_down.npy} --- stores whether movement from a cell to the cell below it is blocked
+\end{itemize}
+
+This representation preserves the original maze layout while allowing efficient movement checks and graph-based search.
+
+\section*{Maze Solving (BFS)}
+
+A Breadth-First Search (BFS) algorithm was used to solve the maze from the start position to the goal position.
+
+BFS was selected because the maze is an unweighted grid environment, so BFS guarantees a shortest path in terms of number of moves. It is also simple, deterministic, and well suited for validating whether the maze representation is correct.
+
+The solver produced the following results:
+
+\begin{itemize}[itemsep=0.2em]
+    \item Path length: 423 cells
+    \item Total moves required: 422
+    \item Turns required (maximum of five actions per turn): 85
+\end{itemize}
+
+These results confirmed that the reconstructed maze was connected correctly and that the movement logic in the environment was functioning as expected.
 
 \section*{Visualization}
-The maze and BFS solution path were visualized using \texttt{matplotlib}. The solution path was highlighted in red for contrast.
+
+The maze and the BFS solution path were visualized using \texttt{matplotlib}. The extracted wall structure was drawn directly from the logical wall representation, and the BFS path was highlighted in red so the traversal from the start to the goal was easy to interpret.
+
+Figure 1 shows the maze without hazards. Figure 2 shows the BFS solution path over the maze.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.62\textwidth]{maze_no_hazards.png}
+    \includegraphics[width=0.72\textwidth]{maze_no_hazards.png}
     \caption{Maze loaded without hazards.}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.62\textwidth]{maze_solution.png}
+    \includegraphics[width=0.72\textwidth]{maze_solution.png}
     \caption{BFS solution path visualized on the maze.}
 \end{figure}
 
-\section*{Hazard Implementation}
-The environment supports:
-\begin{itemize}[itemsep=0.2em]
-    \item \textbf{Death pits:} immediate death, respawn at the start next turn,
-    \item \textbf{Teleport pads:} deterministic teleport to a fixed destination,
-    \item \textbf{Confusion pads:} inverted controls for the rest of the turn and the following turn.
+\section*{Hazard System}
+
+After validating the maze and solver, hazards were added to the environment to introduce more complex behavior. Three hazard types were implemented:
+
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{Death pits} --- the agent immediately dies upon entering the cell and respawns at the start location on the next turn
+    \item \textbf{Teleport pads} --- the agent is moved instantly to a predetermined destination cell
+    \item \textbf{Confusion pads} --- the agent's controls are inverted for the remainder of the current turn and the following turn
 \end{itemize}
 
-Hazards were generated automatically at a density of 7\% of navigable cells, which satisfies the required 5--10\% range. A safe path from start to goal was preserved.
+Hazards were generated automatically at approximately 7\% of navigable cells, which satisfies the required density range of 5--10\%. During hazard generation, a valid path between the start and goal positions was preserved so that the maze remained solvable.
+
+Figure 3 shows the maze with hazards displayed.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.62\textwidth]{maze_with_hazards.png}
+    \includegraphics[width=0.72\textwidth]{maze_with_hazards.png}
     \caption{Maze with hazards loaded and displayed.}
 \end{figure}
 
-\section*{Hazard Demonstration}
-The hazard system was demonstrated with three scripted examples:
+\section*{Environment Behavior}
+
+The hazard system was validated through scripted demonstrations showing each hazard type in action. These demonstrations included:
+
 \begin{itemize}[itemsep=0.2em]
-    \item stepping on a death pit,
-    \item stepping on a teleport pad,
-    \item stepping on a confusion pad and showing inverted controls.
+    \item stepping onto a death pit and respawning at the start
+    \item stepping onto a teleport pad and relocating to its mapped destination
+    \item stepping onto a confusion pad and observing temporarily inverted movement
 \end{itemize}
 
-\section*{Environment API}
-The environment matches the project turn format:
+The environment follows the required project turn format:
+
 \begin{itemize}[itemsep=0.2em]
-    \item each turn accepts between 1 and 5 actions,
-    \item actions execute sequentially,
-    \item remaining actions are ignored if the agent dies or reaches the goal,
-    \item the environment returns a \texttt{TurnResult} object with wall hits, current position, death status, confusion status, goal status, teleport status, and actions executed.
+    \item each turn accepts between 1 and 5 actions
+    \item actions are executed sequentially
+    \item remaining actions are ignored if the agent dies or reaches the goal
+    \item the environment returns a \texttt{TurnResult} object containing the resulting state information
 \end{itemize}
+
+This behavior allows the environment to function as a complete grid-world simulation rather than only as a static maze solver.
 
 \section*{AI Usage Disclosure}
+
 AI assistance was used during development.
 
 \textbf{Tool used:} ChatGPT
@@ -91,10 +123,12 @@ AI assistance was used during development.
     \item ``Let's finish all the other files now with the corrected \texttt{maze.py} code and have a working demo check in.''
 \end{itemize}
 
-\textbf{How AI performed:}
-The AI helped with scaffolding for the environment, solver, hazard generation, visualization, and report drafting. All code was reviewed, edited, and integrated by the team.
+\textbf{How AI performed:} The AI helped with scaffolding for the environment, solver, hazard generation, visualization, and report drafting. All generated code was reviewed, edited, and integrated by the team.
 
 \section*{Conclusion}
-The second check-in requirements were completed by loading the maze in Python, solving the no-hazard maze with BFS, visualizing the solution, loading hazards, and demonstrating the hazard behaviors.
+
+The second check-in successfully implemented the maze environment, BFS solver, visualization system, and hazard mechanics. The system now behaves as a complete grid-world environment that can demonstrate agent traversal and hazard interactions in a structured and visual way.
+
+This provides a strong foundation for future work involving more advanced AI agents, hazard-aware navigation, and learning-based approaches.
 
 \end{document}
