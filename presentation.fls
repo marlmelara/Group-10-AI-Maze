@@ -1,8 +1,8 @@
-PWD /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Maze Check-in 2
+PWD /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project
 INPUT /usr/local/texlive/2025/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Maze Check-in 2/presentation.tex
+INPUT /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/presentation.tex
 OUTPUT presentation.log
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/beamer/beamer.cls
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/beamer/beamer.cls

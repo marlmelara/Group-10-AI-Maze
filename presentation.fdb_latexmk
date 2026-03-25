@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1774291490.67316 "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Maze Check-in 2/presentation.tex" "presentation.pdf" "presentation" 1774291492.33683 0
-  "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Maze Check-in 2/presentation.tex" 1774291490.36704 5036 2af579dc35576875e6700f7d46a79de8 ""
+["pdflatex"] 1774463632.98633 "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/presentation.tex" "presentation.pdf" "presentation" 1774463634.66422 0
+  "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/presentation.tex" 1774291490.36704 5036 2af579dc35576875e6700f7d46a79de8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -209,13 +209,13 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1770959213 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "maze_logical_preview.png" 1774288186.19862 7326 d37bdff86e033d645d991e2234154ede ""
-  "maze_overlay.png" 1774288183.87092 31007 f16ebe38b3b1fdb112e594f9289058ef ""
+  "maze_logical_preview.png" 1774462787.6913 7326 d37bdff86e033d645d991e2234154ede ""
+  "maze_overlay.png" 1774462780.8975 31007 f16ebe38b3b1fdb112e594f9289058ef ""
   "maze_solution.png" 1774288380.00063 83296 d30a2b70a7604cd842f019effd6c01be ""
-  "maze_with_hazards.png" 1774288381.39388 77843 d6d783ae5aa6e4e1bddd3598d0047a5e ""
-  "presentation.aux" 1774291492.26956 1587 5542631439a0afde58d5ca6558618f97 "pdflatex"
-  "presentation.nav" 1774291492.27026 1011 83c4ff004b77303d878240d0bcc95e05 "pdflatex"
-  "presentation.out" 1774291491.35755 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "maze_with_hazards.png" 1774462829.12139 77822 57f286d573b83904bcee41ad33ab82da ""
+  "presentation.aux" 1774463634.59714 1587 5542631439a0afde58d5ca6558618f97 "pdflatex"
+  "presentation.nav" 1774463634.59775 1011 83c4ff004b77303d878240d0bcc95e05 "pdflatex"
+  "presentation.out" 1774463633.69214 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   "presentation.tex" 1774291490.36704 5036 2af579dc35576875e6700f7d46a79de8 ""
   (generated)
   "presentation.aux"
