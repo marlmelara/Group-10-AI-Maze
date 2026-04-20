@@ -601,32 +601,151 @@ class HybridRLAgent:
         return None
 
     # ----- top-level planner -----------------------------------------
-    def _plan(self) -> List[Action]:
-        # When we're clearly oscillating (stuck_counter high), skip BFS —
-        # BFS only uses KNOWN-open corridors, and if those don't actually
-        # connect us to the goal we'll just ping-pong in whatever pocket
-        # BFS settles on.  Escalate straight to frontier exploration so we
-        # cross unknown edges and discover a new corridor.  Each call
-        # clears stale pending_actions to guarantee we commit to the new
-        # plan for its full length.
-        if self.stuck_counter > 30:
-            self.pending_actions = []
-            stuck_level = 3 if self.stuck_counter > 60 else 2
-            # First try A* in frontier mode (will traverse unknown edges).
-            frontier = self._search(
-                None, frontier_mode=True,
-                fire_block_any_phase=(stuck_level < 2),
-                fire_scale=max(0.0, 1.0 - 0.4 * stuck_level),
-                visit_scale=max(0.0, 1.0 - 0.3 * stuck_level))
-            if frontier:
-                self.pending_target = None
-                return self._trim_batch(frontier)
-            # If no frontier reachable, fall back to time-indexed BFS.
-            ti_plan = self._time_indexed_bfs()
-            if ti_plan:
-                return self._trim_batch(ti_plan)
+    # ----- Frontier-first planner (v2) --------------------------------
+    # Explicit strategy:
+    #   (1) Phase-aware BFS to goal if we already know a safe path.
+    #   (2) Phase-aware BFS to the nearest frontier cell (known-open cell
+    #       that still has an unknown edge) so the map grows toward goal.
+    #   (3) Same as (2) but allow crossing known fires at non-fire phases.
+    #   (4) As a last resort, take the least-visited adjacent open edge.
+    # This guarantees the agent keeps exploring until the full reachable
+    # region is mapped, even when fires block the direct line to the goal.
 
-        # Fast path: phase-naive BFS on the learned map.
+    def _phase_aware_bfs(self, target: Optional[Position],
+                         frontier_target: bool = False,
+                         block_any_phase_fires: bool = True,
+                         max_states: int = 100_000) -> Optional[List[Action]]:
+        """BFS over (pos, action_counter_mod_20) that respects fire rotations.
+        If `frontier_target` is True, returns the path to the nearest known-open
+        cell that still has at least one unknown edge.
+        Only traverses known-open edges (never unknown, never walls)."""
+        if self.pos is None:
+            return None
+        start_state = (self.pos, self.action_counter % 20)
+        q: deque = deque([start_state])
+        parent: Dict[Tuple[Position, int], Tuple[Tuple[Position, int], Action]] = {
+            start_state: (start_state, Action.WAIT)
+        }
+        reached: Optional[Tuple[Position, int]] = None
+        states_seen = 0
+        while q and states_seen < max_states:
+            state = q.popleft()
+            pos, t = state
+            states_seen += 1
+
+            if frontier_target:
+                if pos != self.pos and self._cell_has_unknown_edge(pos):
+                    reached = state
+                    break
+            elif target is not None and pos == target:
+                reached = state
+                break
+
+            for action in ACTIONS_ORDER + [Action.WAIT]:
+                if action == Action.WAIT:
+                    nxt = pos
+                else:
+                    if self._edge_wall(pos, action):
+                        continue
+                    if self._edge_unknown(pos, action):
+                        continue
+                    dr, dc = ACTION_DELTAS[action]
+                    nxt = (pos[0] + dr, pos[1] + dc)
+                    if nxt in self.teleport_map:
+                        nxt = self.teleport_map[nxt]
+                new_t = (t + 1) % 20
+                arrival_phase = (new_t // 5) % 4
+                # Hard block: arrival lands on a fire for this phase.
+                if nxt in self.fires_by_phase[arrival_phase]:
+                    continue
+                # Optional: block cells that are fires at ANY learned phase.
+                if block_any_phase_fires and nxt in self.fires_any_phase:
+                    continue
+                ns = (nxt, new_t)
+                if ns in parent:
+                    continue
+                parent[ns] = (state, action)
+                q.append(ns)
+
+        if reached is None:
+            return None
+        actions: List[Action] = []
+        cur = reached
+        guard: Set[Tuple[Position, int]] = set()
+        while parent[cur][0] != cur:
+            if cur in guard:
+                return None
+            guard.add(cur)
+            prev, act = parent[cur]
+            actions.append(act)
+            cur = prev
+        actions.reverse()
+        return actions
+
+    def _fallback_move(self) -> List[Action]:
+        """When no BFS plan is available, pick the least-visited adjacent
+        open (or unknown) edge so we at least keep moving.  Prefer known-open
+        edges over unknown ones to avoid unnecessary wall-bumps."""
+        if self.pos is None:
+            return [Action.WAIT]
+        choices: List[Tuple[int, int, Action]] = []  # (is_unknown, visits, action)
+        for action in ACTIONS_ORDER:
+            if self._edge_wall(self.pos, action):
+                continue
+            dr, dc = ACTION_DELTAS[action]
+            nxt = (self.pos[0] + dr, self.pos[1] + dc)
+            if not (0 <= nxt[0] < GRID and 0 <= nxt[1] < GRID):
+                continue
+            if nxt in self.fires_any_phase:
+                continue   # skip known-dangerous cells
+            is_unknown = 1 if self._edge_unknown(self.pos, action) else 0
+            visits = self.visit_counts.get(nxt, 0)
+            choices.append((is_unknown, visits, action))
+        if choices:
+            choices.sort()
+            return [choices[0][2]]
+        # Everything around is blocked or dangerous — try ANY open edge
+        # including known fires, as a last resort.
+        for action in ACTIONS_ORDER:
+            if not self._edge_wall(self.pos, action):
+                return [action]
+        return [Action.WAIT]
+
+    def _plan(self) -> List[Action]:
+        if self.pos is None:
+            return [Action.WAIT]
+
+        # 1) Phase-aware BFS to the goal over known-open cells, avoiding
+        #    every known fire at every phase.
+        if self.goal_pos is not None and self.goal_pos in self.known_empty:
+            plan = self._phase_aware_bfs(self.goal_pos,
+                                         block_any_phase_fires=True)
+            if plan:
+                self.pending_target = self.goal_pos
+                return self._trim_batch(plan)
+            # Relax: accept crossing cells that are fires at OTHER phases.
+            plan = self._phase_aware_bfs(self.goal_pos,
+                                         block_any_phase_fires=False)
+            if plan:
+                self.pending_target = self.goal_pos
+                return self._trim_batch(plan)
+
+        # 2) No safe path to goal yet — go to the nearest frontier cell to
+        #    expand the map.  Try strict fire avoidance first.
+        plan = self._phase_aware_bfs(None, frontier_target=True,
+                                     block_any_phase_fires=True)
+        if plan:
+            self.pending_target = None
+            return self._trim_batch(plan)
+        plan = self._phase_aware_bfs(None, frontier_target=True,
+                                     block_any_phase_fires=False)
+        if plan:
+            self.pending_target = None
+            return self._trim_batch(plan)
+
+        # 3) Legacy fall-back (A* / visit-count chooser).  Reached only
+        #    when neither a known-path-to-goal nor any reachable frontier
+        #    exists - i.e. we're in an isolated closed region.
         bfs_plan = self._known_map_bfs()
         if bfs_plan:
             # NB: do NOT reset consecutive_waits here.  _trim_batch uses it

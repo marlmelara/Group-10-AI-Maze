@@ -1,1 +1,16 @@
-ep=1 goal=False turns=10000 actions=33710 deaths=89 explored=1551 known_empty=1552 fires_any=29 wall_s=35.3
+t=    0 pos=(63, 32) deaths=0 explored=1 known_empty=1 fires_any=0 closest=64
+t= 1000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 2000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 3000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 4000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 5000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 6000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 7000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 8000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t= 9000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t=10000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t=11000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t=12000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t=13000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+t=14000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
+FINAL: goal=False turns=15000 actions=15000 deaths=0 closest=63 wall_s=0.1
