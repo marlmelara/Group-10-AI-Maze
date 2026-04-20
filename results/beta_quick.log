@@ -1,0 +1,10 @@
+t=0 pos=(63, 32) deaths=0 explored=1 el=0.0s
+t=500 pos=(59, 32) deaths=8 explored=184 el=0.4s
+t=1000 pos=(43, 21) deaths=16 explored=297 el=1.7s
+t=1500 pos=(48, 17) deaths=19 explored=390 el=3.5s
+t=2000 pos=(53, 29) deaths=24 explored=476 el=6.2s
+t=2500 pos=(25, 22) deaths=24 explored=684 el=6.8s
+t=3000 pos=(61, 51) deaths=26 explored=840 el=33.0s
+t=3500 pos=(44, 8) deaths=30 explored=963 el=53.8s
+t=4000 pos=(51, 16) deaths=37 explored=996 el=82.9s
+t=4500 pos=(35, 38) deaths=39 explored=1187 el=93.6s

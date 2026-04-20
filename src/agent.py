@@ -429,7 +429,8 @@ class HybridRLAgent:
                 nxt = (pos[0] + dr, pos[1] + dc)
 
                 depth = max(0, int(g))
-                arrival_phase = ((self.action_counter + depth + 1) // 5) % 4
+                # Use pre-increment phase to match environment's pit check.
+                arrival_phase = ((self.action_counter + depth) // 5) % 4
                 # Hard block fires at the exact arrival phase for near steps.
                 if nxt in self.fires_by_phase[arrival_phase]:
                     if depth == 0:
@@ -614,11 +615,22 @@ class HybridRLAgent:
     def _phase_aware_bfs(self, target: Optional[Position],
                          frontier_target: bool = False,
                          block_any_phase_fires: bool = True,
-                         max_states: int = 100_000) -> Optional[List[Action]]:
-        """BFS over (pos, action_counter_mod_20) that respects fire rotations.
-        If `frontier_target` is True, returns the path to the nearest known-open
-        cell that still has at least one unknown edge.
-        Only traverses known-open edges (never unknown, never walls)."""
+                         block_arrival_phase_fires: bool = True,
+                         max_states: int = 20_000,
+                         wall_time_cap: float = 0.08,  # 80 ms hard cap
+                         prefer_near_goal: bool = True) -> Optional[List[Action]]:
+        """BFS over (pos, action_counter_mod_20) respecting fire rotations.
+
+        - If `target` is set, returns a path to that cell.
+        - If `frontier_target` is True, returns a path to a known-open cell
+          that still has at least one unknown edge.  When `prefer_near_goal`
+          is True, we keep exploring until either `max_states` states have
+          been seen or `wall_time_cap` seconds elapse, and return a path to
+          the *reachable* frontier cell with the smallest Manhattan distance
+          to `self.goal_pos`.  This is what makes the agent actively extend
+          the map toward the goal instead of chasing the nearest unknown.
+        """
+        import time as _time
         if self.pos is None:
             return None
         start_state = (self.pos, self.action_counter % 20)
@@ -627,16 +639,28 @@ class HybridRLAgent:
             start_state: (start_state, Action.WAIT)
         }
         reached: Optional[Tuple[Position, int]] = None
+        best_frontier_state: Optional[Tuple[Position, int]] = None
+        best_frontier_score: float = float('inf')
         states_seen = 0
+        t_start = _time.time()
         while q and states_seen < max_states:
+            if states_seen % 512 == 0 and _time.time() - t_start > wall_time_cap:
+                break
             state = q.popleft()
             pos, t = state
             states_seen += 1
 
             if frontier_target:
                 if pos != self.pos and self._cell_has_unknown_edge(pos):
-                    reached = state
-                    break
+                    if prefer_near_goal and self.goal_pos is not None:
+                        score = _manhattan(pos, self.goal_pos)
+                        if score < best_frontier_score:
+                            best_frontier_score = score
+                            best_frontier_state = state
+                        # Keep searching for an even better one.
+                    else:
+                        reached = state
+                        break
             elif target is not None and pos == target:
                 reached = state
                 break
@@ -653,12 +677,12 @@ class HybridRLAgent:
                     nxt = (pos[0] + dr, pos[1] + dc)
                     if nxt in self.teleport_map:
                         nxt = self.teleport_map[nxt]
+                # Environment computes `current_pits` BEFORE incrementing
+                # action_counter, so the pit check uses pre-increment phase.
+                pit_phase = (t // 5) % 4
                 new_t = (t + 1) % 20
-                arrival_phase = (new_t // 5) % 4
-                # Hard block: arrival lands on a fire for this phase.
-                if nxt in self.fires_by_phase[arrival_phase]:
+                if block_arrival_phase_fires and nxt in self.fires_by_phase[pit_phase]:
                     continue
-                # Optional: block cells that are fires at ANY learned phase.
                 if block_any_phase_fires and nxt in self.fires_any_phase:
                     continue
                 ns = (nxt, new_t)
@@ -667,6 +691,8 @@ class HybridRLAgent:
                 parent[ns] = (state, action)
                 q.append(ns)
 
+        if reached is None and best_frontier_state is not None:
+            reached = best_frontier_state
         if reached is None:
             return None
         actions: List[Action] = []
@@ -718,8 +744,9 @@ class HybridRLAgent:
         already known-dangerous at any phase."""
         if self.pos is None:
             return None
-        arrival_phase = ((self.action_counter + 1) // 5) % 4
-        best: Optional[Tuple[int, int, int, Action]] = None   # (dangerous, visits, manhattan_to_goal, action)
+        # Use the pre-increment phase to match the environment's pit check.
+        arrival_phase = (self.action_counter // 5) % 4
+        best: Optional[Tuple[int, int, int, int, Action]] = None
         for action in ACTIONS_ORDER:
             if not self._edge_unknown(self.pos, action):
                 continue
@@ -734,10 +761,26 @@ class HybridRLAgent:
             dangerous = 1 if nxt in self.fires_any_phase else 0
             visits = self.visit_counts.get(nxt, 0)
             m = _manhattan(nxt, self.goal_pos) if self.goal_pos else 0
-            key = (dangerous, visits, m, action)
+            key = (dangerous, visits, m, action.value, action)
             if best is None or key < best:
                 best = key
-        return best[3] if best else None
+        return best[4] if best else None
+
+    def _enumerate_frontier_cells_near_goal(self, max_candidates: int = 20) -> List[Position]:
+        """Enumerate known-empty cells (EXCLUDING the current cell) that
+        still have at least one unknown edge, sorted by Manhattan distance
+        to the goal.  Aims the explorer AT the goal region instead of
+        whatever frontier is locally closest to the agent."""
+        out: List[Tuple[int, Position]] = []
+        for cell in self.known_empty:
+            if cell == self.pos:
+                continue  # self is meaningless as a travel target
+            if self._cell_has_unknown_edge(cell):
+                d = (_manhattan(cell, self.goal_pos)
+                     if self.goal_pos is not None else 0)
+                out.append((d, cell))
+        out.sort(key=lambda kv: kv[0])
+        return [c for _, c in out[:max_candidates]]
 
     def _plan(self) -> List[Action]:
         if self.pos is None:
@@ -758,24 +801,70 @@ class HybridRLAgent:
                 self.pending_target = self.goal_pos
                 return self._trim_batch(plan)
 
-        # 2) If the current cell HAS an unknown edge, step across it — this
-        #    is the exploration primitive that grows known_empty.  Phase-aware
-        #    BFS cannot traverse unknown edges, so without this step the
-        #    agent ping-pongs between start and its known neighbours forever.
+        # 2) If the current cell HAS an unknown edge, step across it.  This
+        #    is the exploration primitive that grows known_empty and must
+        #    come BEFORE any BFS-to-frontier attempts, otherwise the agent
+        #    can oscillate between start and its first discovered neighbour.
         unk = self._pick_unknown_edge_step()
         if unk is not None:
             self.pending_target = None
             return [unk]
 
+        # 3) Explicitly head for the known frontier cell closest to the
+        #    goal.  Iterate up to 5 candidates at ~20 ms each = 100 ms
+        #    budget per turn, still fine.  This is what breaks the "agent
+        #    stuck in a local pocket because the nearest frontier sits on
+        #    the wrong side of the maze" failure mode.
+        if self.goal_pos is not None:
+            candidates = self._enumerate_frontier_cells_near_goal(max_candidates=5)
+            for target in candidates:
+                plan = self._phase_aware_bfs(target,
+                                             block_any_phase_fires=True,
+                                             max_states=10_000,
+                                             wall_time_cap=0.04)
+                if plan:
+                    self.pending_target = None
+                    return self._trim_batch(plan)
+                plan = self._phase_aware_bfs(target,
+                                             block_any_phase_fires=False,
+                                             max_states=10_000,
+                                             wall_time_cap=0.04)
+                if plan:
+                    self.pending_target = None
+                    return self._trim_batch(plan)
+
         # 3) No unknown edge here — BFS through known-open cells to the
         #    nearest frontier cell, so we can reach unmapped regions.
+        #    Strict: block every known-ever-fire cell.
         plan = self._phase_aware_bfs(None, frontier_target=True,
                                      block_any_phase_fires=True)
         if plan:
             self.pending_target = None
             return self._trim_batch(plan)
+        # Medium: only block fires at the arrival phase (TI-BFS ensures this
+        # is correct regardless of other phases).
         plan = self._phase_aware_bfs(None, frontier_target=True,
                                      block_any_phase_fires=False)
+        if plan:
+            self.pending_target = None
+            return self._trim_batch(plan)
+        # Last-chance goal-directed BFS, block_any_phase_fires=False.  If the
+        # goal is known but we couldn't find a safe path earlier, try again
+        # now that the map has grown.
+        if self.goal_pos is not None and self.goal_pos in self.known_empty:
+            plan = self._phase_aware_bfs(self.goal_pos,
+                                         block_any_phase_fires=False)
+            if plan:
+                self.pending_target = self.goal_pos
+                return self._trim_batch(plan)
+
+        # Very relaxed: accept crossing arrival-phase fires too.  We WILL
+        # die sometimes but the death updates the map and progressively
+        # clears the path.  This is the "explore aggressively" escape hatch
+        # that kicks in when every safer option is exhausted.
+        plan = self._phase_aware_bfs(None, frontier_target=True,
+                                     block_any_phase_fires=False,
+                                     block_arrival_phase_fires=False)
         if plan:
             self.pending_target = None
             return self._trim_batch(plan)
@@ -861,7 +950,8 @@ class HybridRLAgent:
             dr, dc = ACTION_DELTAS[act]
             next_cell = (cursor[0] + dr, cursor[1] + dc)
             land = self.teleport_map.get(next_cell, next_cell)
-            arrival_phase = ((self.action_counter + len(trimmed) + 1) // 5) % 4
+            # Pre-increment phase, matching environment's pit check.
+            arrival_phase = ((self.action_counter + len(trimmed)) // 5) % 4
             if land in self.fires_by_phase[arrival_phase]:
                 if not trimmed:
                     # Only WAIT for a bounded number of consecutive turns.

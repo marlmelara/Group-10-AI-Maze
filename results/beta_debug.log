@@ -1,11 +1,3 @@
-Traceback (most recent call last):
-  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/debug_beta.py", line 21, in <module>
-    actions = agent.plan_turn(last)
-  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/agent.py", line 174, in plan_turn
-    plan = self._plan()
-  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/agent.py", line 765, in _plan
-    unk = self._pick_unknown_edge_step()
-  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/agent.py", line 738, in _pick_unknown_edge_step
-    if best is None or key < best:
-                       ^^^^^^^^^^
-TypeError: '<' not supported between instances of 'Action' and 'Action'
+ep=1 goal=True turns=5077 actions=14696 deaths=48 explored=1198 known=1197 closest=0 wall_s=172.9
+ep=2 goal=True turns=418 actions=1822 deaths=4 explored=407 known=1225 closest=0 wall_s=68.4
+ep=3 goal=True turns=95 actions=440 deaths=0 explored=380 known=1225 closest=0 wall_s=14.7

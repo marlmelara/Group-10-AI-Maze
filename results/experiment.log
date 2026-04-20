@@ -1,0 +1,18 @@
+========================================================================
+TRAINING on maze-alpha for 3 episodes
+========================================================================
+  train ep 1: goal=True turns=4582 deaths=13 actions=11094
+  train ep 2: goal=True turns=102 deaths=0 actions=442
+  train ep 3: goal=True turns=87 deaths=0 actions=422
+========================================================================
+EVALUATING on maze-alpha for 5 episodes
+========================================================================
+  ep 1: goal=True turns=4724 deaths=16 actions=11807 explored=1347
+  ep 2: goal=True turns=102 deaths=0 actions=442 explored=429
+  ep 3: goal=True turns=87 deaths=0 actions=422 explored=423
+  ep 4: goal=True turns=87 deaths=0 actions=422 explored=423
+  ep 5: goal=True turns=87 deaths=0 actions=422 explored=423
+  summary: success=100.00% avg_turns=1017.4 avg_path=2704.0 death_rate=0.0031
+========================================================================
+EVALUATING on maze-beta for 5 episodes
+========================================================================
