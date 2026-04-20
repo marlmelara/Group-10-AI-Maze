@@ -711,6 +711,34 @@ class HybridRLAgent:
                 return [action]
         return [Action.WAIT]
 
+    def _pick_unknown_edge_step(self) -> Optional[Action]:
+        """Return a direction from self.pos across an unknown edge that is
+        safe (not a known fire at the arrival phase, not a wall).  Prefer
+        edges whose destination has the lowest visit count and that aren't
+        already known-dangerous at any phase."""
+        if self.pos is None:
+            return None
+        arrival_phase = ((self.action_counter + 1) // 5) % 4
+        best: Optional[Tuple[int, int, int, Action]] = None   # (dangerous, visits, manhattan_to_goal, action)
+        for action in ACTIONS_ORDER:
+            if not self._edge_unknown(self.pos, action):
+                continue
+            if self._edge_wall(self.pos, action):
+                continue
+            dr, dc = ACTION_DELTAS[action]
+            nxt = (self.pos[0] + dr, self.pos[1] + dc)
+            if not (0 <= nxt[0] < GRID and 0 <= nxt[1] < GRID):
+                continue
+            if nxt in self.fires_by_phase[arrival_phase]:
+                continue   # known fatal at arrival
+            dangerous = 1 if nxt in self.fires_any_phase else 0
+            visits = self.visit_counts.get(nxt, 0)
+            m = _manhattan(nxt, self.goal_pos) if self.goal_pos else 0
+            key = (dangerous, visits, m, action)
+            if best is None or key < best:
+                best = key
+        return best[3] if best else None
+
     def _plan(self) -> List[Action]:
         if self.pos is None:
             return [Action.WAIT]
@@ -730,8 +758,17 @@ class HybridRLAgent:
                 self.pending_target = self.goal_pos
                 return self._trim_batch(plan)
 
-        # 2) No safe path to goal yet — go to the nearest frontier cell to
-        #    expand the map.  Try strict fire avoidance first.
+        # 2) If the current cell HAS an unknown edge, step across it — this
+        #    is the exploration primitive that grows known_empty.  Phase-aware
+        #    BFS cannot traverse unknown edges, so without this step the
+        #    agent ping-pongs between start and its known neighbours forever.
+        unk = self._pick_unknown_edge_step()
+        if unk is not None:
+            self.pending_target = None
+            return [unk]
+
+        # 3) No unknown edge here — BFS through known-open cells to the
+        #    nearest frontier cell, so we can reach unmapped regions.
         plan = self._phase_aware_bfs(None, frontier_target=True,
                                      block_any_phase_fires=True)
         if plan:

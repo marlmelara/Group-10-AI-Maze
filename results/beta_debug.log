@@ -1,16 +1,11 @@
-t=    0 pos=(63, 32) deaths=0 explored=1 known_empty=1 fires_any=0 closest=64
-t= 1000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 2000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 3000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 4000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 5000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 6000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 7000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 8000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t= 9000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t=10000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t=11000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t=12000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t=13000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-t=14000 pos=(63, 32) deaths=0 explored=2 known_empty=2 fires_any=0 closest=63
-FINAL: goal=False turns=15000 actions=15000 deaths=0 closest=63 wall_s=0.1
+Traceback (most recent call last):
+  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/debug_beta.py", line 21, in <module>
+    actions = agent.plan_turn(last)
+  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/agent.py", line 174, in plan_turn
+    plan = self._plan()
+  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/agent.py", line 765, in _plan
+    unk = self._pick_unknown_edge_step()
+  File "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/src/agent.py", line 738, in _pick_unknown_edge_step
+    if best is None or key < best:
+                       ^^^^^^^^^^
+TypeError: '<' not supported between instances of 'Action' and 'Action'
