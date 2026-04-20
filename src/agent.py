@@ -459,6 +459,13 @@ class HybridRLAgent:
                 visits = self.visit_counts.get(nxt, 0)
                 cell_cost += min(3.5, self.cfg.visit_penalty_coef * visits) * visit_scale
 
+                # A* soundness: edge costs must be strictly positive to avoid
+                # negative-weight cycles in `came_from` (which would cause the
+                # reconstruction loop below to spin forever).  The teleport
+                # progress bonus can drive cell_cost negative, so floor here.
+                if cell_cost < 0.05:
+                    cell_cost = 0.05
+
                 new_g = g + cell_cost
                 if new_g < best.get(nxt, float('inf')):
                     best[nxt] = new_g
@@ -468,9 +475,15 @@ class HybridRLAgent:
 
         if reached is None:
             return []
+        # Reconstruct with an explicit cycle guard.  A pathological update
+        # pattern could still produce a came_from cycle; never spin forever.
         actions: List[Action] = []
         cur = reached
+        seen_recon: Set[Position] = set()
         while cur in came_from:
+            if cur in seen_recon:
+                return []
+            seen_recon.add(cur)
             prev_pos, act = came_from[cur]
             actions.append(act)
             cur = prev_pos
@@ -589,11 +602,41 @@ class HybridRLAgent:
 
     # ----- top-level planner -----------------------------------------
     def _plan(self) -> List[Action]:
-        # Fast path: time-indexed BFS on the learned map.
+        # When we're clearly oscillating (stuck_counter high), skip BFS —
+        # BFS only uses KNOWN-open corridors, and if those don't actually
+        # connect us to the goal we'll just ping-pong in whatever pocket
+        # BFS settles on.  Escalate straight to frontier exploration so we
+        # cross unknown edges and discover a new corridor.  Each call
+        # clears stale pending_actions to guarantee we commit to the new
+        # plan for its full length.
+        if self.stuck_counter > 30:
+            self.pending_actions = []
+            stuck_level = 3 if self.stuck_counter > 60 else 2
+            # First try A* in frontier mode (will traverse unknown edges).
+            frontier = self._search(
+                None, frontier_mode=True,
+                fire_block_any_phase=(stuck_level < 2),
+                fire_scale=max(0.0, 1.0 - 0.4 * stuck_level),
+                visit_scale=max(0.0, 1.0 - 0.3 * stuck_level))
+            if frontier:
+                self.pending_target = None
+                return self._trim_batch(frontier)
+            # If no frontier reachable, fall back to time-indexed BFS.
+            ti_plan = self._time_indexed_bfs()
+            if ti_plan:
+                return self._trim_batch(ti_plan)
+
+        # Fast path: phase-naive BFS on the learned map.
         bfs_plan = self._known_map_bfs()
         if bfs_plan:
-            self.consecutive_waits = 0
+            # NB: do NOT reset consecutive_waits here.  _trim_batch uses it
+            # to bound how long we'll WAIT for a fire rotation before forcing
+            # through.  Resetting it every call caused a deadlock: BFS keeps
+            # returning a plan whose first step is a fire at the arrival phase,
+            # _trim_batch returns [WAIT], we re-enter, BFS succeeds again,
+            # counter resets, agent waits forever.
             return self._trim_batch(bfs_plan)
+        # Only reset when BFS failed and we're about to try fresh planning.
         self.consecutive_waits = 0
 
         # Reuse previous plan when the next step is still known-safe.
