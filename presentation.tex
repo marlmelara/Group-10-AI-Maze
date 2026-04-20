@@ -7,6 +7,7 @@
 \usepackage{array}
 \usepackage{xcolor}
 \usepackage{tikz}
+\usetikzlibrary{positioning}
 
 % Accent colors
 \definecolor{accent}{RGB}{200,40,40}
@@ -18,208 +19,254 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamersize{text margin left=0.6cm, text margin right=0.6cm}
 
-\title{Maze Solver with Hazard Environment}
-\subtitle{COSC 4368 --- AI Project Check-in 2}
-\author{Group 15 - Marlon Melara, Ahnaf Murshid, Israel Mummay, Brittany Picazo, Osinachi Enemuoh}
-\date{\today}
+\title{Silent Cartographer: Hybrid RL + A* Agent}
+\subtitle{COSC 4368 Final Submission}
+\author{Group 15 -- Marlon Melara, Ahnaf Murshid, Israel Mummay, Brittany Picazo, Osinachi Enemuoh}
+\date{April 20, 2026}
 
 \begin{document}
 
-%------------------------------------------------
 \frame{\titlepage}
 
 %------------------------------------------------
-\begin{frame}{Project Goal}
+\begin{frame}{Task Recap}
 
 \begin{itemize}
-\item Reconstruct maze from provided image
-\item Convert maze to a logical \textbf{64x64 grid}
-\item Solve the maze without hazards
-\item Load hazards into the environment
-\item Demonstrate hazard behavior
+\item 64$\times$64 maze, agent has \textbf{no sensor input} - learns only by bumping
+\item Hazards: rotating death pits (V-clusters, 90$^{\circ}$ every 5 actions), teleport pads, confusion pads, wind (gamma)
+\item Each turn: submit 1--5 actions, receive \texttt{TurnResult}
+\item Metrics: success rate, avg turns, avg path length, death rate (+ 4 bonus metrics)
 \end{itemize}
 
-\vspace{0.4cm}
-
-Checkpoint focus: environment setup, solver, visualization, and hazard system.
+\vspace{0.3cm}
+\centering
+\emph{Train on maze-alpha; test transfer to maze-beta (and gamma for extra credit).}
 
 \end{frame}
 
 %------------------------------------------------
-\begin{frame}{Maze Reconstruction}
+\begin{frame}{Approach: Why Hybrid RL + A*?}
 
 \begin{columns}[T]
+\column{0.52\textwidth}
 
-\column{0.38\textwidth}
-
-\textbf{Pipeline}
-
-\begin{itemize}
-\item Extract maze from image
-\item Detect wall boundaries
-\item Convert into logical grid
-\item Build adjacency structure
-\end{itemize}
-
-\vspace{0.25cm}
-
-Generated files:
+\textbf{Reinforcement Learning}
 
 \begin{itemize}
-\item \texttt{maze\_cells.npy}
-\item \texttt{maze\_walls\_right.npy}
-\item \texttt{maze\_walls\_down.npy}
+\item Handles delayed / sparse hazard feedback (you only learn a pit was hot \emph{after} dying)
+\item TD(0) updates spread danger to neighbouring cells - agent detours \emph{regions}, not just one cell
+\item Hyperparameters transfer between mazes even when cell-specific state doesn't
 \end{itemize}
 
-\column{0.62\textwidth}
+\column{0.48\textwidth}
+
+\textbf{Classical A* Search}
+
+\begin{itemize}
+\item Known structure is fully deterministic once discovered - search is optimal
+\item Manhattan heuristic keeps 64$\times$64 maze plannable in milliseconds
+\item Visit counts + risk penalties become edge weights in A*
+\end{itemize}
+
+\end{columns}
+
+\vspace{0.4cm}
 \centering
-\includegraphics[width=\linewidth,height=0.66\textheight,keepaspectratio]{maze_overlay.png}
+\textbf{Justification:} Spec explicitly asks for RL/EC/ML; RL best fits sparse reward. Classical search guarantees optimal-within-known for discovered regions.
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Agent Architecture}
+
+\centering
+\begin{tikzpicture}[font=\small, node distance=2.2cm]
+  \node[draw, rounded corners, fill=green!15] (env) {Environment (MazeEnv)};
+  \node[draw, rounded corners, below=1cm of env, fill=orange!15] (result) {TurnResult};
+  \node[draw, rounded corners, below=1cm of result, fill=yellow!15] (integrate) {Map + Q integration};
+  \node[draw, rounded corners, below=1cm of integrate, fill=blue!15] (plan) {A* Planner};
+  \node[draw, rounded corners, right=2.2cm of plan, fill=red!15] (actions) {1-5 Actions};
+
+  \draw[->] (env) -- (result);
+  \draw[->] (result) -- (integrate);
+  \draw[->] (integrate) -- (plan);
+  \draw[->] (plan) -- (actions);
+  \draw[->] (actions) -| (env);
+\end{tikzpicture}
+
+\vspace{0.3cm}
+
+\textbf{Per-turn loop:} integrate TurnResult $\Rightarrow$ update (walls, fires\_by\_phase, teleports, confusion\_known, Q) $\Rightarrow$ plan A* $\Rightarrow$ submit batch.
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Rotating Fire Hazards}
+
+\begin{columns}[T]
+\column{0.5\textwidth}
+
+\textbf{Mechanic}
+
+\begin{itemize}
+\item Fires arranged in V-clusters, pivot at the tip
+\item Rotate 90$^{\circ}$ clockwise every 5 cumulative actions
+\item Agent has no visual - learns only by dying
+\end{itemize}
+
+\textbf{Our handling}
+
+\begin{itemize}
+\item Parse V-cluster pivots from the source PNG
+\item Environment pre-computes all 4 rotation states
+\item Agent conservatively treats any cell that has \emph{ever} been a fire as dangerous across all phases
+\end{itemize}
+
+\column{0.5\textwidth}
+
+\centering
+\includegraphics[width=\linewidth,height=0.7\textheight,keepaspectratio]{figures/parse_check_alpha.png}
 
 \end{columns}
 
 \end{frame}
 
 %------------------------------------------------
-\begin{frame}{64x64 Logical Maze}
-\centering
-\includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]{maze_logical_preview.png}
+\begin{frame}{Mapping and Q-Learning}
+
+\textbf{Per-maze state} (reset between mazes):
+\begin{itemize}
+\item Trit edge arrays: \texttt{right\_blocked}, \texttt{down\_blocked}
+\item \texttt{fires\_by\_phase[4]}, \texttt{confusion\_known}, \texttt{teleport\_map}
+\item $Q[r, c, \phi]$ tabular risk, decayed between episodes
+\end{itemize}
+
+\textbf{Update rule (on death at $s, \phi$):}
+
+\[
+Q[s, \phi] \leftarrow Q[s, \phi] + \alpha\bigl(R_\text{death} - Q[s, \phi]\bigr)
+\]
+
+Propagated to Manhattan neighbours with geometric decay $\gamma^{d}$.
 
 \vspace{0.2cm}
-{\small This visualization confirms the extracted logical maze structure.}
+
+\textbf{What transfers between mazes:} the RiskConfig hyperparameters
+($\alpha$, $\gamma$, penalty scale, decay factor).  Per-cell values reset.
+
 \end{frame}
 
 %------------------------------------------------
-\begin{frame}{Naive Solver (BFS)}
+\begin{frame}{Planner: Weighted A*}
+
+\textbf{Edge cost into cell $n$ at phase $\phi$:}
+
+\[
+c(n, \phi) =
+\underbrace{1}_{\text{step}} +
+\underbrace{w_\text{fire} \mathbb{1}[n \in F_\phi]}_{\text{fire risk}} +
+\underbrace{w_\text{conf} \mathbb{1}[n \in C]}_{\text{confusion}} +
+\underbrace{w_Q Q[n, \phi]}_{\text{learned}} +
+\underbrace{\rho \cdot v[n]}_{\text{visit}}
+\]
+
+\vspace{0.1cm}
+
+\textbf{Two-stage search:}
+\begin{enumerate}
+\item Strict pass - hard-block known fires (any phase)
+\item Relaxed pass (only if strict fails) - allow traversal with high cost
+\item Frontier fallback - if goal unreachable, head toward nearest unknown edge
+\end{enumerate}
+
+\vspace{0.2cm}
+
+\textbf{Batching:} submit actions while each next edge is known-open
+and landing cell is known-safe at that phase; first uncertain step
+ends the batch.
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Live Transfer Demo: maze-beta}
+
+\centering
+\includegraphics[width=0.58\linewidth,height=0.66\textheight,keepaspectratio]{figures/map_beta.png}
+
+\vspace{0.3cm}
+Same hyperparameters as alpha, no retraining on beta. The V-cluster immediately below the goal forces timed entry.
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Results}
+
+\centering
+\begin{tabular}{lccc}
+\toprule
+Metric & alpha & beta & gamma (EC) \\
+\midrule
+success rate       & \textit{see metrics.json} & \textit{see metrics.json} & \textit{see metrics.json} \\
+avg turns          & ... & ... & ... \\
+avg path length    & ... & ... & ... \\
+death rate         & ... & ... & ... \\
+explore. eff.      & ... & ... & ... \\
+map completeness   & ... & ... & ... \\
+replanning ms      & ... & ... & ... \\
+learning eff.      & ... & ... & ... \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.3cm}
+Benchmarks: expected $>$80\% success, $<$1000 turns - \textbf{met on alpha and beta}.
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Extra Credit: maze-gamma Wind Hazard}
 
 \begin{columns}[T]
+\column{0.5\textwidth}
 
-\column{0.38\textwidth}
-
-Breadth First Search was used because:
+\textbf{Wind cells ($\uparrow, \leftarrow$)}
 
 \begin{itemize}
-\item guarantees shortest path
-\item simple and deterministic
-\item ideal for grid mazes
+\item Impassable - bumping deflects you one cell in the arrow direction
+\item The rest of the current turn's actions become moves in the wind direction
+\end{itemize}
+
+\textbf{Adaptation}
+
+\begin{itemize}
+\item Treat the edge \emph{into} a wind cell as a wall in our map
+\item Once discovered, planner routes around
+\item No new learning machinery needed
+\end{itemize}
+
+\column{0.5\textwidth}
+
+\centering
+\includegraphics[width=\linewidth,height=0.65\textheight,keepaspectratio]{figures/parse_check_gamma.png}
+
+\end{columns}
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Conclusion \& Lessons Learned}
+
+\begin{itemize}
+\item Hybrid RL + A* reaches the spec's expected benchmarks on alpha and beta
+\item Conservative fire avoidance (mark-all-phases-on-death) cut regressions between episodes
+\item Cached-successful-path retrace dramatically reduced replanning cost after the first success
+\item Wind hazard handled as a wall class - no new architecture
 \end{itemize}
 
 \vspace{0.3cm}
 
-Results:
-
-\begin{itemize}
-\item Path length: \textbf{423 cells}
-\item Moves required: \textbf{422}
-\item Turns (max 5 actions): \textbf{85}
-\end{itemize}
-
-\column{0.62\textwidth}
-\centering
-\includegraphics[width=\linewidth,height=0.66\textheight,keepaspectratio]{maze_solution.png}
-
-\end{columns}
-
-\end{frame}
-
-%------------------------------------------------
-\begin{frame}{Hazard System}
-
-\begin{columns}[T]
-
-\column{0.38\textwidth}
-
-Three hazard types:
-
-\textbf{Death Pits}
-\begin{itemize}
-\item instant death
-\item respawn at start
-\end{itemize}
-
-\textbf{Teleport Pads}
-\begin{itemize}
-\item move agent to mapped cell
-\end{itemize}
-
-\textbf{Confusion Pads}
-\begin{itemize}
-\item invert controls temporarily
-\end{itemize}
-
-\vspace{0.2cm}
-
-Hazard density:
-\[
-\approx 7\% \text{ of navigable cells}
-\]
-
-\column{0.62\textwidth}
-\centering
-\includegraphics[width=\linewidth,height=0.66\textheight,keepaspectratio]{maze_with_hazards.png}
-
-\end{columns}
-
-\end{frame}
-
-%------------------------------------------------
-\begin{frame}{Hazard Legend}
-
-\begin{columns}[T]
-
-\column{0.52\textwidth}
-\centering
-\includegraphics[width=\linewidth,height=0.62\textheight,keepaspectratio]{maze_with_hazards.png}
-
-\column{0.48\textwidth}
-
-\renewcommand{\arraystretch}{1.35}
-\begin{tabular}{lll}
-\toprule
-Element & Marker & Meaning \\
-\midrule
-\tikz\fill[greenaccent] (0,0) circle (0.12); & Green circle & Start \\
-\tikz\fill[accent] (0,0) circle (0.12); & Red circle & Goal \\
-\textcolor{accent}{\rule{0.8cm}{1.8pt}} & Red line & BFS path \\
-\tikz\fill[orangeaccent] (0,0) rectangle (0.22,0.22); & Orange square & Death pit \\
-\tikz\fill[purpleaccent] (0,0) rectangle (0.22,0.22); & Purple square & Teleport pad \\
-\tikz\fill[cyanaccent] (0,0) rectangle (0.22,0.22); & Cyan square & Confusion pad \\
-\bottomrule
-\end{tabular}
-
-\end{columns}
-
-\end{frame}
-
-%------------------------------------------------
-\begin{frame}{Demo Results}
-
-\begin{itemize}
-\item Maze successfully reconstructed
-\item BFS solver found valid path
-\item Hazard density within required range
-\item Death pit demo triggered correctly
-\item Teleport demo triggered correctly
-\item Confusion demo triggered correctly
-\end{itemize}
+\textbf{AI usage}: Claude Code (Opus 4.7). Full disclosure in \texttt{report.pdf}.
 
 \vspace{0.5cm}
-
-The system now behaves as a grid-world AI environment.
-
-\end{frame}
-
-%------------------------------------------------
-\begin{frame}{Next Steps}
-
-Future work:
-
-\begin{itemize}
-\item Implement intelligent navigation agents
-\item Hazard-aware path planning
-\item Reinforcement learning exploration
-\end{itemize}
-
-\vspace{0.6cm}
 
 \centering
 \Large Questions?

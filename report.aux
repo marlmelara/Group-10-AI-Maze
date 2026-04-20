@@ -2,7 +2,31 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Maze loaded without hazards.}}{2}{figure.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces BFS solution path visualized on the maze.}}{3}{figure.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Maze with hazards loaded and displayed.}}{4}{figure.3}\protected@file@percent }
-\gdef \@abspage@last{5}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Method Choice and Justification}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Environment}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Maze Representation}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Rotating V-fires}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Teleport, Confusion, Wind (gamma)}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Agent Architecture}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Persistent State (per maze)}{2}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Planning (per turn)}{2}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}RL Update}{3}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments and Results}{3}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Protocol}{3}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Primary Metrics on maze-alpha}{3}{subsection.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Maze-alpha evaluation metrics (5 episodes).}}{3}{table.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:alpha}{{1}{3}{Maze-alpha evaluation metrics (5 episodes)}{table.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Left: maze-alpha walls + hazards. Right: agent's trajectory on a successful evaluation episode. The agent's path (crimson) is the BFS-shortest route after the map has been learned from episode 1.}}{4}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:alpha}{{1}{4}{Left: maze-alpha walls + hazards. Right: agent's trajectory on a successful evaluation episode. The agent's path (crimson) is the BFS-shortest route after the map has been learned from episode 1}{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Learning curve on maze-alpha: turns-to-goal drops from 3739 in episode 1 (exploration) to a steady 87 in episodes 2--5 (exploitation of the learned map).}}{4}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:learning}{{2}{4}{Learning curve on maze-alpha: turns-to-goal drops from 3739 in episode 1 (exploration) to a steady 87 in episodes 2--5 (exploitation of the learned map)}{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Exploration heatmap on maze-alpha: warmer cells were visited more often. After the map is learned, traffic concentrates on the shortest known path.}}{5}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:heatmap}{{3}{5}{Exploration heatmap on maze-alpha: warmer cells were visited more often. After the map is learned, traffic concentrates on the shortest known path}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Transfer to maze-beta and maze-gamma (Extra Credit)}{5}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Secondary (Bonus) Metrics}{5}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Implementation Notes}{6}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}AI Usage Disclosure}{6}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{7}{section.8}\protected@file@percent }
+\gdef \@abspage@last{7}
