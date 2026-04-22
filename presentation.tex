@@ -188,20 +188,38 @@ ends the batch.
 \end{frame}
 
 %------------------------------------------------
-\begin{frame}{Live Transfer Demo: maze-beta}
+\begin{frame}{Working Demo: maze-beta --- learning $\to$ optimal}
 
 \begin{columns}[T]
-\column{0.52\textwidth}
+\column{0.5\textwidth}
 \centering
-\includegraphics[width=\linewidth,keepaspectratio]{figures/map_beta.png}
+\includegraphics[width=\linewidth,keepaspectratio]{figures/beta_demo_exploration_final.png}
 
-\column{0.48\textwidth}
+\vspace{-0.15cm}
+\footnotesize\textbf{Episode 1 --- RL Exploration}\\
+5204 turns, 49 deaths\\
+\emph{Play:} \texttt{figures/beta\_demo\_exploration.gif}
+
+\column{0.5\textwidth}
 \centering
-\includegraphics[width=\linewidth,keepaspectratio]{figures/trajectory_beta.png}
+\includegraphics[width=\linewidth,keepaspectratio]{figures/beta_demo_converged_final.png}
+
+\vspace{-0.15cm}
+\footnotesize\textbf{Episode 3+ --- BFS-Optimal (Converged)}\\
+$\sim$80 turns, 0 deaths\\
+\emph{Play:} \texttt{figures/beta\_demo\_converged.gif}
 \end{columns}
 
-\vspace{0.2cm}
-Same hyperparameters as alpha, \emph{no retraining on beta}. The goal has a \textbf{single-entry chute} (only approachable via $(2,32) \to (1,32) \to (0,32) \to (0,31)$) --- the goal-biased frontier BFS is what lets the agent find it.
+\vspace{0.15cm}
+\scriptsize
+\textbf{Left: the RL learning phase.}  Agent explores blind, dies on fires,
+builds its map, eventually reaches the goal.\\
+\textbf{Right: the classical-search payoff.}  With the map learned, phase-aware
+BFS plans the optimal path and the agent walks it cleanly.\\[1pt]
+\textbf{Key obstacle:} the goal $(0,31)$ is walled on three sides;
+the only open neighbor is $(0,32)$.  Reaching the goal requires the
+4-cell corridor $(2,32) \!\to\! (1,32) \!\to\! (0,32) \!\to\! (0,31)$.
+Goal-biased frontier BFS is what lets the agent discover that corridor.
 
 \end{frame}
 

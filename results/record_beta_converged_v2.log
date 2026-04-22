@@ -1,0 +1,15 @@
+  ep1 t=2800 pos=(60, 50) deaths=26 explored=763 wall_s=30.1
+  ep1 t=3639 pos=(55, 29) deaths=33 explored=956 wall_s=60.1
+  ep1 t=4101 pos=(47, 15) deaths=39 explored=1001 wall_s=90.2
+  ep1 t=4700 pos=(59, 29) deaths=43 explored=1164 wall_s=120.2
+ep1: goal=True turns=4821 deaths=43 frames=4822 wall_s=129.6
+  ep2 t=148 pos=(55, 20) deaths=2 explored=370 wall_s=30.2
+ep2: goal=True turns=205 deaths=2 frames=206 wall_s=36.1
+ep3: goal=True turns=80 deaths=0 frames=81 wall_s=12.5
+ep4: goal=True turns=80 deaths=0 frames=81 wall_s=12.2
+ep5: goal=True turns=80 deaths=0 frames=81 wall_s=12.3
+
+Converged = ep3 (81 frames)
+Pickled -> /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/results/beta_frames_converged.pkl
+Rendered GIF -> /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/figures/beta_demo_converged.gif
+Total wall time: 219.7s

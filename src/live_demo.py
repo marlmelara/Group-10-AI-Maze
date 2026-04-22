@@ -29,6 +29,7 @@ Position = Tuple[int, int]
 
 def run_live(maze_id: str, pretrain_maze: str = "alpha",
              pretrain_episodes: int = 3,
+             demo_warmup: int = 2,
              save_gif: str = None,
              frame_interval_ms: int = 20,
              skip_frames: int = 2):
@@ -59,6 +60,31 @@ def run_live(maze_id: str, pretrain_maze: str = "alpha",
     env = MazeEnvironment(maze_id)
     agent.reset_for_new_maze()
     agent.set_start_goal(env.start_pos, env.goal_pos)
+
+    # Silent warmup on the DEMO maze: the first cold episode is the
+    # exploration-heavy one (many thousands of turns) which is too slow
+    # to watch live.  Running a few silent episodes here lets the agent
+    # build its map; the subsequent animated episode then walks the
+    # converged BFS-optimal path in ~80 turns.  The agent's map,
+    # fires_by_phase, teleport_map, and successful_paths all persist
+    # across reset_episode() calls within the same maze, so the next
+    # episode benefits from what these silent runs discovered.
+    if demo_warmup > 0:
+        print(f"Warming up the agent's map of {maze_id} with "
+              f"{demo_warmup} silent episode(s) before the animation...",
+              flush=True)
+        for ep in range(demo_warmup):
+            env.reset(); agent.reset_episode(); agent.pos = env.start_pos
+            last = None
+            for _ in range(15000):
+                actions = agent.plan_turn(last)
+                last = env.step(actions)
+                if last.is_goal_reached: break
+            stats = env.get_episode_stats()
+            print(f"  warmup ep{ep+1}: goal={stats['goal_reached']} "
+                  f"turns={stats['turns_taken']} deaths={stats['deaths']}",
+                  flush=True)
+
     env.reset(); agent.reset_episode(); agent.pos = env.start_pos
 
     parsed: ParsedMaze = env.parsed
@@ -152,11 +178,16 @@ if __name__ == "__main__":
     parser.add_argument("--maze", default="beta")
     parser.add_argument("--pretrain-maze", default="alpha")
     parser.add_argument("--pretrain-episodes", type=int, default=3)
+    parser.add_argument("--demo-warmup", type=int, default=2,
+                        help="Silent episodes on the DEMO maze before "
+                             "the animation (default 2); lets the live "
+                             "episode show the converged optimal path.")
     parser.add_argument("--interval-ms", type=int, default=20)
     parser.add_argument("--skip-frames", type=int, default=2)
     args = parser.parse_args()
 
     run_live(args.maze, pretrain_maze=args.pretrain_maze,
              pretrain_episodes=args.pretrain_episodes,
+             demo_warmup=args.demo_warmup,
              frame_interval_ms=args.interval_ms,
              skip_frames=args.skip_frames)

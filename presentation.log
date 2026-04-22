@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 01:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 03:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1036,37 +1036,40 @@ Overfull \vbox (3.26799pt too high) detected at line 132
 [7
 
 ]
-<figures/map_beta.png, id=98, 626.34pt x 642.7212pt>
-File: figures/map_beta.png Graphic file (type png)
-<use figures/map_beta.png>
-Package pdftex.def Info: figures/map_beta.png  used on input line 206.
-(pdftex.def)             Requested size: 218.97401pt x 224.7008pt.
-<figures/trajectory_beta.png, id=99, 626.34pt x 642.7212pt>
-File: figures/trajectory_beta.png Graphic file (type png)
-<use figures/trajectory_beta.png>
-Package pdftex.def Info: figures/trajectory_beta.png  used on input line 206.
-(pdftex.def)             Requested size: 202.1264pt x 207.41084pt.
+<figures/beta_demo_exploration_final.png, id=98, 626.94225pt x 641.9985pt>
+File: figures/beta_demo_exploration_final.png Graphic file (type png)
+<use figures/beta_demo_exploration_final.png>
+Package pdftex.def Info: figures/beta_demo_exploration_final.png  used on input
+ line 224.
+(pdftex.def)             Requested size: 210.55022pt x 215.60226pt.
+<figures/beta_demo_converged_final.png, id=99, 626.94225pt x 641.9985pt>
+File: figures/beta_demo_converged_final.png Graphic file (type png)
+<use figures/beta_demo_converged_final.png>
+Package pdftex.def Info: figures/beta_demo_converged_final.png  used on input l
+ine 224.
+(pdftex.def)             Requested size: 210.55022pt x 215.60226pt.
 
-Overfull \vbox (64.05919pt too high) detected at line 206
+Overfull \vbox (101.39241pt too high) detected at line 224
  []
 
 
 
 [8
 
- <./figures/map_beta.png> <./figures/trajectory_beta.png>]
+ <./figures/beta_demo_exploration_final.png> <./figures/beta_demo_converged_fin
+al.png>]
 
 [9
 
 ]
-<figures/solution_dashboard.png, id=116, 925.056pt x 673.65964pt>
+<figures/solution_dashboard.png, id=120, 925.056pt x 673.65964pt>
 File: figures/solution_dashboard.png Graphic file (type png)
 <use figures/solution_dashboard.png>
-Package pdftex.def Info: figures/solution_dashboard.png  used on input line 247
+Package pdftex.def Info: figures/solution_dashboard.png  used on input line 265
 .
 (pdftex.def)             Requested size: 345.30544pt x 251.46019pt.
 
-Overfull \vbox (157.68942pt too high) detected at line 247
+Overfull \vbox (157.68942pt too high) detected at line 265
  []
 
 
@@ -1100,11 +1103,11 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25092 strings out of 473190
- 500675 string characters out of 5715801
+ 25133 strings out of 473190
+ 501413 string characters out of 5715801
  861011 words of memory out of 5000000
- 47820 multiletter control sequences out of 15000+600000
- 567046 words of font info for 66 fonts, out of 8000000 for 9000
+ 47850 multiletter control sequences out of 15000+600000
+ 575250 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,15n,123p,387b,746s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
@@ -1113,17 +1116,21 @@ Here is how much of TeX's memory you used:
 usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></u
 sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></us
 r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loc
-al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on presentation.pdf (12 pages, 697245 bytes).
+local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi9.pfb></usr/loc
+al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
+l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/
+texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/tex
+live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texli
+ve/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on presentation.pdf (12 pages, 789423 bytes).
 PDF statistics:
- 202 PDF objects out of 1000 (max. 8388607)
- 125 compressed objects within 2 object streams
+ 222 PDF objects out of 1000 (max. 8388607)
+ 137 compressed objects within 2 object streams
  25 named destinations out of 1000 (max. 500000)
  105 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,9 @@
+t=1000 pos=(43, 21) deaths=16 frames=26 el=1.7s
+t=2000 pos=(53, 34) deaths=24 frames=51 el=6.2s
+t=3000 pos=(52, 56) deaths=26 frames=76 el=35.8s
+t=4000 pos=(55, 20) deaths=36 frames=101 el=92.1s
+t=5000 pos=(58, 29) deaths=48 frames=126 el=171.8s
+DONE ep: goal=True turns=5204 deaths=49 frames=132 wall_s=192.3
+Saved 132 frames -> /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/results/beta_frames.pkl
+Rendering 132 frames -> /Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/figures/beta_demo.gif
+All done. Wall time: 221.8s
