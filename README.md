@@ -8,8 +8,8 @@ implementation of the *Silent Cartographer: Maze Navigation* project.
 
 | Maze      | Success rate | Avg turns | Death rate | Notes |
 |-----------|-------------:|----------:|-----------:|-------|
-| alpha     | **100 %** (5/5) | 1000.4 | 0.0028 | Train + test |
-| beta      | **100 %** (5/5) | 1120.8 | 0.0089 | Test only; no training per spec |
+| alpha     | **100 %** (5/5) | 1015.4 | 0.0030 | Train + test |
+| beta      | **100 %** (5/5) | 1178.4 | 0.0090 | Test only; no training per spec |
 | gamma EC  | attempted   | — | — | Reached Manhattan 25 from goal; not solved |
 
 Both primary mazes meet or exceed the specification's **stretch goals**
@@ -17,8 +17,11 @@ Both primary mazes meet or exceed the specification's **stretch goals**
 
 ## Team
 
-Marlon Melara • Ahnaf Murshid • Israel Mummay •
-Brittany Picazo • Osinachi Enemuoh
+**Marlon Melara** • **Ahnaf Murshid**
+
+(Group 15 was originally rostered with five students; only the two
+above contributed to this submission. The contribution statement in
+`report.pdf` documents this.)
 
 ## How It Works
 

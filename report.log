@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 00:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 01:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -507,50 +507,49 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local
 /texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
 [2]
-<figures/map_alpha.png, id=110, 626.34pt x 642.7212pt>
-File: figures/map_alpha.png Graphic file (type png)
-<use figures/map_alpha.png>
-Package pdftex.def Info: figures/map_alpha.png  used on input line 207.
-(pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/trajectory_alpha.png, id=112, 626.34pt x 642.7212pt>
-File: figures/trajectory_alpha.png Graphic file (type png)
-<use figures/trajectory_alpha.png>
-Package pdftex.def Info: figures/trajectory_alpha.png  used on input line 208.
-(pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-
 
 [3]
+<figures/map_alpha.png, id=120, 626.34pt x 642.7212pt>
+File: figures/map_alpha.png Graphic file (type png)
+<use figures/map_alpha.png>
+Package pdftex.def Info: figures/map_alpha.png  used on input line 218.
+(pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
+<figures/trajectory_alpha.png, id=122, 626.34pt x 642.7212pt>
+File: figures/trajectory_alpha.png Graphic file (type png)
+<use figures/trajectory_alpha.png>
+Package pdftex.def Info: figures/trajectory_alpha.png  used on input line 219.
+(pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
 <figures/learning_curve_alpha.png, id=123, 859.0494pt x 356.532pt>
 File: figures/learning_curve_alpha.png Graphic file (type png)
 <use figures/learning_curve_alpha.png>
 Package pdftex.def Info: figures/learning_curve_alpha.png  used on input line 2
-17.
+28.
 (pdftex.def)             Requested size: 244.27461pt x 101.37874pt.
-<figures/heatmap_alpha.png, id=124, 626.34pt x 642.7212pt>
+
+
+[4 <./figures/map_alpha.png> <./figures/trajectory_alpha.png>]
+<figures/heatmap_alpha.png, id=132, 626.34pt x 642.7212pt>
 File: figures/heatmap_alpha.png Graphic file (type png)
 <use figures/heatmap_alpha.png>
-Package pdftex.def Info: figures/heatmap_alpha.png  used on input line 226.
+Package pdftex.def Info: figures/heatmap_alpha.png  used on input line 237.
 (pdftex.def)             Requested size: 258.36668pt x 265.12576pt.
 
 
-[4 <./figures/map_alpha.png> <./figures/trajectory_alpha.png> <./figures/learni
-ng_curve_alpha.png>]
-
-[5 <./figures/heatmap_alpha.png>]
-<figures/map_beta.png, id=142, 626.34pt x 642.7212pt>
+[5 <./figures/learning_curve_alpha.png> <./figures/heatmap_alpha.png>]
+<figures/map_beta.png, id=143, 626.34pt x 642.7212pt>
 File: figures/map_beta.png Graphic file (type png)
 <use figures/map_beta.png>
-Package pdftex.def Info: figures/map_beta.png  used on input line 276.
+Package pdftex.def Info: figures/map_beta.png  used on input line 287.
 (pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/trajectory_beta.png, id=143, 626.34pt x 642.7212pt>
+<figures/trajectory_beta.png, id=144, 626.34pt x 642.7212pt>
 File: figures/trajectory_beta.png Graphic file (type png)
 <use figures/trajectory_beta.png>
-Package pdftex.def Info: figures/trajectory_beta.png  used on input line 277.
+Package pdftex.def Info: figures/trajectory_beta.png  used on input line 288.
 (pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/solution_dashboard.png, id=144, 925.056pt x 673.65964pt>
+<figures/solution_dashboard.png, id=145, 925.056pt x 673.65964pt>
 File: figures/solution_dashboard.png Graphic file (type png)
 <use figures/solution_dashboard.png>
-Package pdftex.def Info: figures/solution_dashboard.png  used on input line 286
+Package pdftex.def Info: figures/solution_dashboard.png  used on input line 297
 .
 (pdftex.def)             Requested size: 469.75502pt x 342.09193pt.
 
@@ -568,37 +567,45 @@ Package pdftex.def Info: figures/solution_dashboard.png  used on input line 286
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 7F759847171442896304DDA62B05BF09;3224.
  ) 
 Here is how much of TeX's memory you used:
- 13743 strings out of 473190
- 215851 string characters out of 5715801
- 633002 words of memory out of 5000000
+ 13745 strings out of 473190
+ 215876 string characters out of 5715801
+ 631950 words of memory out of 5000000
  36796 multiletter control sequences out of 15000+600000
  571664 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,520b,544s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
-r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/
-texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texl
-ive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texliv
-e/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/
-2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025
-/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025/t
-exmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on report.pdf (10 pages, 923777 bytes).
+ 75i,9n,79p,520b,567s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{table.caption.5} has been referenced but does not e
+xist, replaced by a fixed one
+
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
+r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
+al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
+l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/
+texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texl
+ive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texliv
+e/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/
+2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/20
+25/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025
+/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025/t
+exmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025/tex
+mf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on report.pdf (10 pages, 930872 bytes).
 PDF statistics:
- 257 PDF objects out of 1000 (max. 8388607)
- 196 compressed objects within 2 object streams
- 43 named destinations out of 1000 (max. 500000)
+ 259 PDF objects out of 1000 (max. 8388607)
+ 198 compressed objects within 2 object streams
+ 45 named destinations out of 1000 (max. 500000)
  196 words of extra memory for PDF output out of 10000 (max. 10000000)
 

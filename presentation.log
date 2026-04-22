@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 00:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 01:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -978,30 +978,12 @@ Dictionary: translator-numbers-dictionary, Language: English
 tionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (./presentation.nav)
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 27--27
- [][]  
- []
-
-
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 29--29
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [1
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 45--45
- [][]  
- []
-
 LaTeX Font Info:    Trying to load font information for U+msa on input line 45.
+
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1020,46 +1002,17 @@ File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
 
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
-
 [2
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 77--77
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [3
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 101--101
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [4
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 132--132
- [][]  
- []
-
 <figures/parse_check_alpha.png, id=67, 1143.3114pt x 585.8688pt>
 File: figures/parse_check_alpha.png Graphic file (type png)
 <use figures/parse_check_alpha.png>
@@ -1072,46 +1025,17 @@ Overfull \vbox (3.26799pt too high) detected at line 132
 
 
 
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
-
 [5
 
  <./figures/parse_check_alpha.png>]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 157--157
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [6
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 188--188
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [7
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 206--206
- [][]  
- []
-
 <figures/map_beta.png, id=98, 626.34pt x 642.7212pt>
 File: figures/map_beta.png Graphic file (type png)
 <use figures/map_beta.png>
@@ -1128,32 +1052,13 @@ Overfull \vbox (64.05919pt too high) detected at line 206
 
 
 
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
-
 [8
 
  <./figures/map_beta.png> <./figures/trajectory_beta.png>]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 232--232
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [9
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 247--247
- [][]  
- []
-
 <figures/solution_dashboard.png, id=116, 925.056pt x 673.65964pt>
 File: figures/solution_dashboard.png Graphic file (type png)
 <use figures/solution_dashboard.png>
@@ -1166,38 +1071,13 @@ Overfull \vbox (157.68942pt too high) detected at line 247
 
 
 
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
-
 [10
 
  <./figures/solution_dashboard.png>]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 260--260
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [11
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 281--281
- [][]  
- []
-
-
-
-
-Overfull \hbox (105.51566pt too wide) has occurred while \output is active
- [][]  
- []
 
 [12
 
@@ -1220,10 +1100,10 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25090 strings out of 473190
- 500659 string characters out of 5715801
- 860428 words of memory out of 5000000
- 47818 multiletter control sequences out of 15000+600000
+ 25092 strings out of 473190
+ 500675 string characters out of 5715801
+ 861011 words of memory out of 5000000
+ 47820 multiletter control sequences out of 15000+600000
  567046 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,15n,123p,387b,746s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1240,7 +1120,7 @@ local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loc
 al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/loca
 l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on presentation.pdf (12 pages, 698039 bytes).
+Output written on presentation.pdf (12 pages, 697245 bytes).
 PDF statistics:
  202 PDF objects out of 1000 (max. 8388607)
  125 compressed objects within 2 object streams

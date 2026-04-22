@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1776835879.04015 "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/report.tex" "report.pdf" "report" 1776835880.89544 0
+["pdflatex"] 1776836255.63437 "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/report.tex" "report.pdf" "report" 1776836257.67266 0
   "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/report.tex" 1776835876.88898 19528 aaa2460b3273b598f99dfae127c2e59f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -115,14 +115,14 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "figures/heatmap_alpha.png" 1776833227.89353 72048 278527ff739ef77789f26f3f2918ae15 ""
-  "figures/learning_curve_alpha.png" 1776832982.7616 65508 156363c185664e333438e50bd8c9879d ""
+  "figures/learning_curve_alpha.png" 1776836255.03053 66700 b8780794a2ab78f9bd34e939599b6c37 ""
   "figures/map_alpha.png" 1776833226.06819 66313 d9eaea5dbfe4156c51c7e93493e99aef ""
   "figures/map_beta.png" 1776833513.7099 72713 3d6e32f8abd6e5b10300c5b354695e00 ""
   "figures/solution_dashboard.png" 1776835852.64315 246073 890e707e1a9dd98045aeab34294b667f ""
   "figures/trajectory_alpha.png" 1776833226.88107 94716 7381796ec72887d71d5f165652b6dc98 ""
   "figures/trajectory_beta.png" 1776833514.41143 102162 b4772ec502f30fbb070e7f8210ea1ea2 ""
-  "report.aux" 1776835880.79332 6177 7a014390ec835e67e73e6fe38120d04c "pdflatex"
-  "report.out" 1776835880.8002 3224 7f759847171442896304dda62b05bf09 "pdflatex"
+  "report.aux" 1776836257.56476 6177 7a014390ec835e67e73e6fe38120d04c "pdflatex"
+  "report.out" 1776836257.56562 3224 7f759847171442896304dda62b05bf09 "pdflatex"
   "report.tex" 1776835876.88898 19528 aaa2460b3273b598f99dfae127c2e59f ""
   (generated)
   "report.aux"

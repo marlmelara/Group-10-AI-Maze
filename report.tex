@@ -29,11 +29,22 @@
 }
 
 \title{COSC 4368 Silent Cartographer \\ Final Project Report -- Group 15}
-\author{Marlon Melara, Ahnaf Murshid, Israel Mummay, \\ Brittany Picazo, Osinachi Enemuoh}
+\author{Marlon Melara, Ahnaf Murshid}
 \date{April 22, 2026}
 
 \begin{document}
 \maketitle
+
+\section*{Team Contribution Statement}
+
+This project was completed entirely by \textbf{Marlon Melara} and
+\textbf{Ahnaf Murshid}.  The three other students originally listed
+on Group~15's roster --- \emph{Israel Mummay}, \emph{Brittany Picazo},
+and \emph{Osinachi Enemuoh} --- did \textbf{not contribute in any
+way} to this submission.  They produced no code, no report content,
+no experiments, and no presentation material.  All analysis,
+algorithm design, debugging, writeup, and visualizations in this
+submission are the work of Marlon Melara and Ahnaf Murshid alone.
 
 \section{Introduction}
 
@@ -186,9 +197,9 @@ in 87 turns with zero deaths for every subsequent episode.
 Metric & Value \\
 \midrule
 Success rate           & \textbf{100\%} \\
-Average turns to goal  & 1000.4 \\
-Average path length    & 2622.8 cells visited \\
-Death rate             & 0.0028 (14 deaths / 5002 total turns) \\
+Average turns to goal  & 1015.4 \\
+Average path length    & 2695.8 cells visited \\
+Death rate             & 0.0030 (15 deaths / 5077 total turns) \\
 Exploration efficiency & 0.83 (unique / total visits) \\
 Map completeness       & 0.33 (1351 / 4096 cells) \\
 Replanning efficiency  & $\approx$3 ms per turn \\
@@ -215,7 +226,7 @@ BFS-shortest route after the map has been learned from episode 1.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.52\textwidth]{figures/learning_curve_alpha.png}
-\caption{Learning curve on maze-alpha: turns-to-goal drops from 4503 in
+\caption{Learning curve on maze-alpha: turns-to-goal drops from 4729 in
 episode 1 (exploration) to a steady 87 in episodes 2--5 (exploitation
 of the learned map).}
 \label{fig:learning}
@@ -246,7 +257,7 @@ inherits only the \texttt{RiskConfig} hyperparameters from alpha; the
 map, Q-table, and hazard sets reset at the start of the beta run.
 Over 5 evaluation episodes the agent reaches the goal on every
 attempt (Table \ref{tab:beta}).  Episode~1 is exploration-heavy
-(5203 turns, 49 deaths as the V-cluster rotations are discovered);
+(5495 turns, 52 deaths as the V-cluster rotations are discovered);
 by episode~3 the phase-aware BFS on the learned map drives the agent
 along an 80-turn / 0-death optimal path and holds that for the
 remaining episodes.
@@ -260,11 +271,11 @@ remaining episodes.
 Metric & Value \\
 \midrule
 Success rate           & \textbf{100\%} \\
-Average turns to goal  & 1120.8 \\
-Average path length    & 3436.0 cells visited \\
-Death rate             & 0.0089 (50 deaths / 5604 total turns) \\
+Average turns to goal  & 1178.4 \\
+Average path length    & 3680.2 cells visited \\
+Death rate             & 0.0090 (53 deaths / 5892 total turns) \\
 Exploration efficiency & 0.68 \\
-Map completeness       & 0.30 (1209 / 4096 cells) \\
+Map completeness       & 0.30 (1226 / 4096 cells) \\
 Replanning efficiency  & $\approx$50 ms per turn (larger hazard count) \\
 Learning efficiency    & 1 episode to first success \\
 \bottomrule
@@ -315,7 +326,7 @@ direction; the edge \emph{into} a wind cell is marked as a wall in
 the agent's map, so the planner routes around it without any new
 learning machinery.
 
-In a 30{,}000-turn cold-start run the agent discovered one of the
+In a single-episode cold-start run the agent discovered one of the
 two teleports, explored 943 cells within 120 seconds, and reached a
 Manhattan distance of 25 from the goal --- but did not solve gamma
 within the turn budget in our submission window.  Gamma's combination
@@ -425,9 +436,9 @@ were made by the humans after interpreting the symptoms.
 Our hybrid RL + A* + frontier-BFS agent solves both maze-alpha and
 maze-beta at \textbf{100\% success over 5 evaluation episodes each},
 without training on beta.  On alpha the first episode is exploratory
-(4503 turns, 11 deaths) and subsequent episodes run the BFS-optimal
+(4729 turns, 15 deaths) and subsequent episodes run the BFS-optimal
 path in 87 turns with zero deaths.  On beta the first episode takes
-5203 turns with 49 deaths as the agent discovers the single-entry
+5495 turns with 52 deaths as the agent discovers the single-entry
 chute to the goal; by episode~3 the learned map yields an 80-turn /
 0-death path that holds through the remaining episodes.
 

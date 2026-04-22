@@ -7,7 +7,7 @@
       "mazes": [
         "alpha"
       ],
-      "output": "results/metrics_alpha_final.json",
+      "output": "/tmp/verify_alpha.json",
       "fig_dir": "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/figures"
     },
     "beta": {
@@ -17,7 +17,7 @@
       "mazes": [
         "beta"
       ],
-      "output": "results/metrics_beta_final.json",
+      "output": "/tmp/verify_beta.json",
       "fig_dir": "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/figures"
     }
   },
@@ -25,24 +25,24 @@
     "alpha_training": {
       "episodes": 3,
       "success_rate": 1.0,
-      "avg_path_length": 3830.67,
-      "avg_turns": 1559.0,
-      "death_rate": 0.0024,
-      "exploration_efficiency": 0.7106,
+      "avg_path_length": 4244.0,
+      "avg_turns": 1639.67,
+      "death_rate": 0.003,
+      "exploration_efficiency": 0.7061,
       "map_completeness": 0.3298,
-      "replanning_efficiency_ms": 155.12,
+      "replanning_efficiency_ms": 155.7,
       "learning_efficiency": 1,
       "per_episode": [
         {
           "ep": 1,
           "goal": true,
-          "turns": 4503,
-          "actions": 10645,
-          "deaths": 11,
-          "path_len": 10646,
+          "turns": 4745,
+          "actions": 11885,
+          "deaths": 15,
+          "path_len": 11886,
           "cells_explored": 1351,
-          "expl_eff": 0.127,
-          "wall_seconds": 161.2
+          "expl_eff": 0.114,
+          "wall_seconds": 180.35
         },
         {
           "ep": 2,
@@ -53,7 +53,7 @@
           "path_len": 423,
           "cells_explored": 423,
           "expl_eff": 1.002,
-          "wall_seconds": 18.52
+          "wall_seconds": 18.77
         },
         {
           "ep": 3,
@@ -64,31 +64,31 @@
           "path_len": 423,
           "cells_explored": 423,
           "expl_eff": 1.002,
-          "wall_seconds": 18.86
+          "wall_seconds": 18.57
         }
       ]
     },
     "alpha_eval": {
       "episodes": 5,
       "success_rate": 1.0,
-      "avg_path_length": 2622.8,
-      "avg_turns": 1000.4,
-      "death_rate": 0.0028,
-      "exploration_efficiency": 0.8256,
+      "avg_path_length": 2695.8,
+      "avg_turns": 1015.4,
+      "death_rate": 0.003,
+      "exploration_efficiency": 0.8248,
       "map_completeness": 0.3298,
-      "replanning_efficiency_ms": 180.03,
+      "replanning_efficiency_ms": 176.25,
       "learning_efficiency": 1,
       "per_episode": [
         {
           "ep": 1,
           "goal": true,
-          "turns": 4654,
-          "actions": 11421,
-          "deaths": 14,
-          "path_len": 11422,
+          "turns": 4729,
+          "actions": 11786,
+          "deaths": 15,
+          "path_len": 11787,
           "cells_explored": 1351,
-          "expl_eff": 0.118,
-          "wall_seconds": 167.23
+          "expl_eff": 0.115,
+          "wall_seconds": 181.67
         },
         {
           "ep": 2,
@@ -99,7 +99,7 @@
           "path_len": 423,
           "cells_explored": 423,
           "expl_eff": 1.002,
-          "wall_seconds": 18.82
+          "wall_seconds": 18.32
         },
         {
           "ep": 3,
@@ -110,7 +110,7 @@
           "path_len": 423,
           "cells_explored": 423,
           "expl_eff": 1.002,
-          "wall_seconds": 18.75
+          "wall_seconds": 18.32
         },
         {
           "ep": 4,
@@ -121,7 +121,7 @@
           "path_len": 423,
           "cells_explored": 423,
           "expl_eff": 1.002,
-          "wall_seconds": 18.79
+          "wall_seconds": 18.36
         },
         {
           "ep": 5,
@@ -132,42 +132,42 @@
           "path_len": 423,
           "cells_explored": 423,
           "expl_eff": 1.002,
-          "wall_seconds": 18.84
+          "wall_seconds": 18.34
         }
       ]
     },
     "beta_eval": {
       "episodes": 5,
       "success_rate": 1.0,
-      "avg_path_length": 3436.0,
-      "avg_turns": 1120.8,
-      "death_rate": 0.0089,
+      "avg_path_length": 3680.2,
+      "avg_turns": 1178.4,
+      "death_rate": 0.009,
       "exploration_efficiency": 0.6809,
-      "map_completeness": 0.2952,
-      "replanning_efficiency_ms": 136.84,
+      "map_completeness": 0.2993,
+      "replanning_efficiency_ms": 135.97,
       "learning_efficiency": 1,
       "per_episode": [
         {
           "ep": 1,
           "goal": true,
-          "turns": 5203,
-          "actions": 15175,
-          "deaths": 49,
-          "path_len": 15176,
-          "cells_explored": 1209,
-          "expl_eff": 0.08,
-          "wall_seconds": 199.75
+          "turns": 5495,
+          "actions": 16416,
+          "deaths": 52,
+          "path_len": 16417,
+          "cells_explored": 1226,
+          "expl_eff": 0.075,
+          "wall_seconds": 210.27
         },
         {
           "ep": 2,
           "goal": true,
-          "turns": 161,
-          "actions": 800,
+          "turns": 157,
+          "actions": 780,
           "deaths": 1,
-          "path_len": 801,
-          "cells_explored": 386,
-          "expl_eff": 0.482,
-          "wall_seconds": 27.27
+          "path_len": 781,
+          "cells_explored": 380,
+          "expl_eff": 0.487,
+          "wall_seconds": 25.47
         },
         {
           "ep": 3,
@@ -178,7 +178,7 @@
           "path_len": 401,
           "cells_explored": 379,
           "expl_eff": 0.948,
-          "wall_seconds": 12.76
+          "wall_seconds": 12.92
         },
         {
           "ep": 4,
@@ -189,7 +189,7 @@
           "path_len": 401,
           "cells_explored": 379,
           "expl_eff": 0.948,
-          "wall_seconds": 12.8
+          "wall_seconds": 12.82
         },
         {
           "ep": 5,
@@ -200,7 +200,7 @@
           "path_len": 401,
           "cells_explored": 379,
           "expl_eff": 0.948,
-          "wall_seconds": 12.56
+          "wall_seconds": 12.62
         }
       ]
     }

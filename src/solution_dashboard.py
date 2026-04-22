@@ -156,8 +156,9 @@ def main():
     _draw_metrics_panel(ax_metrics, metrics["results"])
     _draw_convergence(ax_conv, metrics["results"])
 
-    fig.suptitle("Silent Cartographer  •  Solution Dashboard  •  Group 15",
-                 fontsize=14, fontweight="bold", y=0.98)
+    fig.suptitle("Silent Cartographer  •  Solution Dashboard  •  "
+                 "Group 15 (Marlon Melara, Ahnaf Murshid)",
+                 fontsize=13, fontweight="bold", y=0.98)
     out = ROOT / "figures" / "solution_dashboard.png"
     plt.savefig(out, dpi=140, bbox_inches="tight")
     plt.close(fig)
