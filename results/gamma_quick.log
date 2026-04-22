@@ -1,0 +1,4 @@
+t=0 pos=(63, 32) deaths=0 explored=1 tele_known=0 closest=64 el=0.0s
+t=1000 pos=(34, 39) deaths=11 explored=365 tele_known=0 closest=25 el=4.4s
+t=2000 pos=(35, 47) deaths=16 explored=642 tele_known=1 closest=25 el=64.6s
+t=3000 pos=(32, 21) deaths=20 explored=943 tele_known=1 closest=25 el=120.4s

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  20 APR 2026 06:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 00:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -507,12 +507,12 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local
 /texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
 [2]
-<figures/map_alpha.png, id=102, 626.34pt x 642.7212pt>
+<figures/map_alpha.png, id=110, 626.34pt x 642.7212pt>
 File: figures/map_alpha.png Graphic file (type png)
 <use figures/map_alpha.png>
 Package pdftex.def Info: figures/map_alpha.png  used on input line 207.
 (pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/trajectory_alpha.png, id=104, 626.34pt x 642.7212pt>
+<figures/trajectory_alpha.png, id=112, 626.34pt x 642.7212pt>
 File: figures/trajectory_alpha.png Graphic file (type png)
 <use figures/trajectory_alpha.png>
 Package pdftex.def Info: figures/trajectory_alpha.png  used on input line 208.
@@ -520,13 +520,13 @@ Package pdftex.def Info: figures/trajectory_alpha.png  used on input line 208.
 
 
 [3]
-<figures/learning_curve_alpha.png, id=115, 859.0494pt x 356.532pt>
+<figures/learning_curve_alpha.png, id=123, 859.0494pt x 356.532pt>
 File: figures/learning_curve_alpha.png Graphic file (type png)
 <use figures/learning_curve_alpha.png>
 Package pdftex.def Info: figures/learning_curve_alpha.png  used on input line 2
 17.
 (pdftex.def)             Requested size: 244.27461pt x 101.37874pt.
-<figures/heatmap_alpha.png, id=116, 626.34pt x 642.7212pt>
+<figures/heatmap_alpha.png, id=124, 626.34pt x 642.7212pt>
 File: figures/heatmap_alpha.png Graphic file (type png)
 <use figures/heatmap_alpha.png>
 Package pdftex.def Info: figures/heatmap_alpha.png  used on input line 226.
@@ -535,33 +535,50 @@ Package pdftex.def Info: figures/heatmap_alpha.png  used on input line 226.
 
 [4 <./figures/map_alpha.png> <./figures/trajectory_alpha.png> <./figures/learni
 ng_curve_alpha.png>]
-Overfull \hbox (56.44199pt too wide) in paragraph at lines 249--258
-\T1/cmr/m/n/10.95 heavy BFS for timing-critical fire cor-ri-dors can be slow on
- the stricter maze lay-outs). See \T1/cmtt/m/n/10.95 results/metrics.json
- []
-
-
 
 [5 <./figures/heatmap_alpha.png>]
+<figures/map_beta.png, id=142, 626.34pt x 642.7212pt>
+File: figures/map_beta.png Graphic file (type png)
+<use figures/map_beta.png>
+Package pdftex.def Info: figures/map_beta.png  used on input line 276.
+(pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
+<figures/trajectory_beta.png, id=143, 626.34pt x 642.7212pt>
+File: figures/trajectory_beta.png Graphic file (type png)
+<use figures/trajectory_beta.png>
+Package pdftex.def Info: figures/trajectory_beta.png  used on input line 277.
+(pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
+<figures/solution_dashboard.png, id=144, 925.056pt x 673.65964pt>
+File: figures/solution_dashboard.png Graphic file (type png)
+<use figures/solution_dashboard.png>
+Package pdftex.def Info: figures/solution_dashboard.png  used on input line 286
+.
+(pdftex.def)             Requested size: 469.75502pt x 342.09193pt.
 
-[6]
 
-[7] (./report.aux)
+[6 <./figures/map_beta.png> <./figures/trajectory_beta.png>]
+
+[7 <./figures/solution_dashboard.png>]
+
+[8]
+
+[9]
+
+[10] (./report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 7A48E0255AE2B74F630772485B5C2D2B;2946.
+(rerunfilecheck)             Checksum: 7F759847171442896304DDA62B05BF09;3224.
  ) 
 Here is how much of TeX's memory you used:
- 13709 strings out of 473190
- 215017 string characters out of 5715801
- 632301 words of memory out of 5000000
- 36770 multiletter control sequences out of 15000+600000
+ 13743 strings out of 473190
+ 215851 string characters out of 5715801
+ 633002 words of memory out of 5000000
+ 36796 multiletter control sequences out of 15000+600000
  571664 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,520b,546s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,520b,544s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
@@ -578,10 +595,10 @@ e/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/
 25/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025
 /texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025/t
 exmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on report.pdf (7 pages, 566669 bytes).
+Output written on report.pdf (10 pages, 923777 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 170 compressed objects within 2 object streams
- 35 named destinations out of 1000 (max. 500000)
- 165 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 257 PDF objects out of 1000 (max. 8388607)
+ 196 compressed objects within 2 object streams
+ 43 named destinations out of 1000 (max. 500000)
+ 196 words of extra memory for PDF output out of 10000 (max. 10000000)
 

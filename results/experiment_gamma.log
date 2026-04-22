@@ -1,0 +1,5 @@
+========================================================================
+EVALUATING on maze-gamma for 5 episodes
+========================================================================
+  ep 1: goal=False turns=15000 deaths=29 actions=49548 explored=1368
+  ep 2: goal=False turns=15000 deaths=0 actions=56304 explored=267

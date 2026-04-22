@@ -1,0 +1,82 @@
+{
+  "config": {
+    "episodes": 5,
+    "training_episodes": 0,
+    "max_turns": 15000,
+    "mazes": [
+      "beta"
+    ],
+    "output": "results/metrics_beta_final.json",
+    "fig_dir": "/Users/marlon/Desktop/Projects/COSC 4368 Fundamentals of AI/Group 15 Maze AI Project/figures"
+  },
+  "results": {
+    "beta_eval": {
+      "episodes": 5,
+      "success_rate": 1.0,
+      "avg_path_length": 3436.0,
+      "avg_turns": 1120.8,
+      "death_rate": 0.0089,
+      "exploration_efficiency": 0.6809,
+      "map_completeness": 0.2952,
+      "replanning_efficiency_ms": 136.84,
+      "learning_efficiency": 1,
+      "per_episode": [
+        {
+          "ep": 1,
+          "goal": true,
+          "turns": 5203,
+          "actions": 15175,
+          "deaths": 49,
+          "path_len": 15176,
+          "cells_explored": 1209,
+          "expl_eff": 0.08,
+          "wall_seconds": 199.75
+        },
+        {
+          "ep": 2,
+          "goal": true,
+          "turns": 161,
+          "actions": 800,
+          "deaths": 1,
+          "path_len": 801,
+          "cells_explored": 386,
+          "expl_eff": 0.482,
+          "wall_seconds": 27.27
+        },
+        {
+          "ep": 3,
+          "goal": true,
+          "turns": 80,
+          "actions": 400,
+          "deaths": 0,
+          "path_len": 401,
+          "cells_explored": 379,
+          "expl_eff": 0.948,
+          "wall_seconds": 12.76
+        },
+        {
+          "ep": 4,
+          "goal": true,
+          "turns": 80,
+          "actions": 400,
+          "deaths": 0,
+          "path_len": 401,
+          "cells_explored": 379,
+          "expl_eff": 0.948,
+          "wall_seconds": 12.8
+        },
+        {
+          "ep": 5,
+          "goal": true,
+          "turns": 80,
+          "actions": 400,
+          "deaths": 0,
+          "path_len": 401,
+          "cells_explored": 379,
+          "expl_eff": 0.948,
+          "wall_seconds": 12.56
+        }
+      ]
+    }
+  }
+}

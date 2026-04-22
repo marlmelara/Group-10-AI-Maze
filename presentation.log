@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  20 APR 2026 06:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 00:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -977,9 +977,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 (/usr/local/texlive/2025/texmf-dist/tex/latex/translator/translator-theorem-dic
 tionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
-)
-No file presentation.nav.
-
+) (./presentation.nav)
 Overfull \hbox (105.51566pt too wide) in paragraph at lines 27--27
  [][]  
  []
@@ -1062,7 +1060,7 @@ Overfull \hbox (105.51566pt too wide) in paragraph at lines 132--132
  [][]  
  []
 
-<figures/parse_check_alpha.png, id=66, 1143.3114pt x 585.8688pt>
+<figures/parse_check_alpha.png, id=67, 1143.3114pt x 585.8688pt>
 File: figures/parse_check_alpha.png Graphic file (type png)
 <use figures/parse_check_alpha.png>
 Package pdftex.def Info: figures/parse_check_alpha.png  used on input line 132.
@@ -1110,15 +1108,24 @@ Overfull \hbox (105.51566pt too wide) has occurred while \output is active
 [7
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 199--199
+Overfull \hbox (105.51566pt too wide) in paragraph at lines 206--206
  [][]  
  []
 
-<figures/map_beta.png, id=97, 626.34pt x 642.7212pt>
+<figures/map_beta.png, id=98, 626.34pt x 642.7212pt>
 File: figures/map_beta.png Graphic file (type png)
 <use figures/map_beta.png>
-Package pdftex.def Info: figures/map_beta.png  used on input line 199.
-(pdftex.def)             Requested size: 156.55594pt x 160.65048pt.
+Package pdftex.def Info: figures/map_beta.png  used on input line 206.
+(pdftex.def)             Requested size: 218.97401pt x 224.7008pt.
+<figures/trajectory_beta.png, id=99, 626.34pt x 642.7212pt>
+File: figures/trajectory_beta.png Graphic file (type png)
+<use figures/trajectory_beta.png>
+Package pdftex.def Info: figures/trajectory_beta.png  used on input line 206.
+(pdftex.def)             Requested size: 202.1264pt x 207.41084pt.
+
+Overfull \vbox (64.05919pt too high) detected at line 206
+ []
+
 
 
 
@@ -1128,8 +1135,8 @@ Overfull \hbox (105.51566pt too wide) has occurred while \output is active
 
 [8
 
- <./figures/map_beta.png>]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 223--223
+ <./figures/map_beta.png> <./figures/trajectory_beta.png>]
+Overfull \hbox (105.51566pt too wide) in paragraph at lines 232--232
  [][]  
  []
 
@@ -1143,16 +1150,20 @@ Overfull \hbox (105.51566pt too wide) has occurred while \output is active
 [9
 
 ]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 253--253
+Overfull \hbox (105.51566pt too wide) in paragraph at lines 247--247
  [][]  
  []
 
-<figures/parse_check_gamma.png, id=113, 1143.3114pt x 585.8688pt>
-File: figures/parse_check_gamma.png Graphic file (type png)
-<use figures/parse_check_gamma.png>
-Package pdftex.def Info: figures/parse_check_gamma.png  used on input line 253.
+<figures/solution_dashboard.png, id=116, 925.056pt x 673.65964pt>
+File: figures/solution_dashboard.png Graphic file (type png)
+<use figures/solution_dashboard.png>
+Package pdftex.def Info: figures/solution_dashboard.png  used on input line 247
+.
+(pdftex.def)             Requested size: 345.30544pt x 251.46019pt.
 
-(pdftex.def)             Requested size: 210.54979pt x 107.89235pt.
+Overfull \vbox (157.68942pt too high) detected at line 247
+ []
+
 
 
 
@@ -1162,8 +1173,8 @@ Overfull \hbox (105.51566pt too wide) has occurred while \output is active
 
 [10
 
- <./figures/parse_check_gamma.png>]
-Overfull \hbox (105.51566pt too wide) in paragraph at lines 274--274
+ <./figures/solution_dashboard.png>]
+Overfull \hbox (105.51566pt too wide) in paragraph at lines 260--260
  [][]  
  []
 
@@ -1175,6 +1186,20 @@ Overfull \hbox (105.51566pt too wide) has occurred while \output is active
  []
 
 [11
+
+]
+Overfull \hbox (105.51566pt too wide) in paragraph at lines 281--281
+ [][]  
+ []
+
+
+
+
+Overfull \hbox (105.51566pt too wide) has occurred while \output is active
+ [][]  
+ []
+
+[12
 
 ]
 \tf@nav=\write6
@@ -1195,11 +1220,11 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25048 strings out of 473190
- 500093 string characters out of 5715801
- 860436 words of memory out of 5000000
- 47781 multiletter control sequences out of 15000+600000
- 566710 words of font info for 64 fonts, out of 8000000 for 9000
+ 25090 strings out of 473190
+ 500659 string characters out of 5715801
+ 860428 words of memory out of 5000000
+ 47818 multiletter control sequences out of 15000+600000
+ 567046 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,15n,123p,387b,746s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
@@ -1215,10 +1240,10 @@ local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loc
 al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/loca
 l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on presentation.pdf (11 pages, 633617 bytes).
+Output written on presentation.pdf (12 pages, 698039 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 119 compressed objects within 2 object streams
- 23 named destinations out of 1000 (max. 500000)
- 100 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 202 PDF objects out of 1000 (max. 8388607)
+ 125 compressed objects within 2 object streams
+ 25 named destinations out of 1000 (max. 500000)
+ 105 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,11 @@
+========================================================================
+EVALUATING on maze-beta for 5 episodes
+========================================================================
+  ep 1: goal=True turns=5203 deaths=49 actions=15175 explored=1209
+  ep 2: goal=True turns=161 deaths=1 actions=800 explored=386
+  ep 3: goal=True turns=80 deaths=0 actions=400 explored=379
+  ep 4: goal=True turns=80 deaths=0 actions=400 explored=379
+  ep 5: goal=True turns=80 deaths=0 actions=400 explored=379
+  summary: success=100.00% avg_turns=1120.8 avg_path=3436.0 death_rate=0.0089
+
+Wrote metrics report -> results/metrics_beta_final.json

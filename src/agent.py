@@ -617,7 +617,7 @@ class HybridRLAgent:
                          block_any_phase_fires: bool = True,
                          block_arrival_phase_fires: bool = True,
                          max_states: int = 20_000,
-                         wall_time_cap: float = 0.08,  # 80 ms hard cap
+                         wall_time_cap: float = 0.04,  # 40 ms hard cap
                          prefer_near_goal: bool = True) -> Optional[List[Action]]:
         """BFS over (pos, action_counter_mod_20) respecting fire rotations.
 
@@ -821,14 +821,14 @@ class HybridRLAgent:
                 plan = self._phase_aware_bfs(target,
                                              block_any_phase_fires=True,
                                              max_states=10_000,
-                                             wall_time_cap=0.04)
+                                             wall_time_cap=0.02)
                 if plan:
                     self.pending_target = None
                     return self._trim_batch(plan)
                 plan = self._phase_aware_bfs(target,
                                              block_any_phase_fires=False,
                                              max_states=10_000,
-                                             wall_time_cap=0.04)
+                                             wall_time_cap=0.02)
                 if plan:
                     self.pending_target = None
                     return self._trim_batch(plan)
