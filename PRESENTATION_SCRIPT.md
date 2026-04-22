@@ -1,406 +1,75 @@
 # Presentation Script — Silent Cartographer (Group 15)
 
-Written in complete sentences but still direct. Read or paraphrase.
-Pauses are between slides.
-
-**How to use the plain-language notes.** Every technical term is
-followed by an *optional* "plain English" line in italics. If the
-audience is with you, skip it. If you see blank faces, drop it in
-naturally before moving on.
+Read straight through. Every technical term is explained in the sentence where it first appears, so you don't need to stop or insert anything.
 
 ---
 
-## Slide 1 — Title
+## Slide 1
 
-"Good morning. This is Silent Cartographer, our final submission for
-COSC 4368. We built a hybrid reinforcement-learning and A-star agent
-that solves unknown maze environments. I'm Marlon Melara, and my
-teammate is Ahnaf Murshid."
-
-> *Plain-English fallback for "hybrid RL + A-star":*
-> "In other words, we combined a learning approach that gets better
-> through trial and error with a classical path-finding algorithm."
+Good morning. This is Silent Cartographer, Group 15's final project for COSC 4368, presented by Marlon Melara and Ahnaf Murshid. We built an agent that navigates an unknown sixty-four by sixty-four grid maze using a combination of reinforcement learning, which is a trial-and-error approach where the agent learns from the consequences of its actions, and A-star search, which is a classical pathfinding algorithm that finds the shortest route through a map it already knows. Over the next twelve slides we'll walk through how the agent works, how it performs on both test mazes, and what we learned along the way.
 
 ---
 
-## Slide 2 — Task Recap
+## Slide 2
 
-"The task is to navigate an unknown sixty-four by sixty-four grid
-maze. The agent has no sensors, which means it learns about walls by
-bumping into them and learns about fires by dying on them. The
-hazards include rotating V-shaped fire clusters that turn ninety
-degrees every five actions, teleport pads, and confusion pads. Each
-turn the agent submits between one and five actions, and the
-environment returns a TurnResult describing what happened. We train
-on maze-alpha and then test the same agent on maze-beta without any
-retraining. The required metrics are success rate, average turns,
-path length, and death rate, and there are four bonus metrics we
-also report."
-
-> *Plain-English fallback for "TurnResult":*
-> "Basically, a summary object telling the agent what just happened —
-> did it hit a wall, did it die, did it reach the goal."
-
-> *Plain-English fallback for "retraining":*
-> "We're not allowed to let the agent practice on the test maze
-> beforehand. It gets dropped in cold."
+The task is to navigate an unknown sixty-four by sixty-four grid maze. The agent has no sensors, so it learns about walls only by bumping into them and learns about fires only by dying on them. The hazards are rotating V-shaped fire clusters that turn ninety degrees every five actions, teleport pads that move the agent to a fixed destination, and confusion pads that invert the agent's controls for a turn. Each turn the agent submits between one and five actions, and the environment returns a summary called a TurnResult that tells the agent what happened, including whether it hit a wall, died, or reached the goal. The rule is that we train on maze-alpha and then test the same agent on maze-beta without retraining, meaning the agent is dropped cold into the test maze and has to figure it out live. The four required metrics are success rate, average turns to solution, average path length, and death rate, and we also report four bonus metrics.
 
 ---
 
-## Slide 3 — Approach: Why Hybrid RL + A*
+## Slide 3
 
-"We chose reinforcement learning because the reward signal is both
-delayed and sparse. You only discover a cell is a fire after you
-have already died on it, so TD-zero learning is useful for spreading
-that danger to neighboring cells. The agent ends up detouring whole
-regions instead of a single cell. We paired reinforcement learning
-with classical A-star search because once an edge has been observed,
-its state is deterministic forever. Classical search can exploit
-that structure immediately, while a pure reinforcement-learning
-policy would need hundreds of episodes to learn the same paths. The
-learned hyperparameters transfer from alpha to beta, but the
-per-cell state is reset between mazes because that's what the spec
-requires."
-
-> *Plain-English fallback for "reward signal is delayed and sparse":*
-> "You don't find out a cell is bad until you've already stepped on
-> it and died. There's no warning beforehand."
-
-> *Plain-English fallback for "TD-zero learning":*
-> "A reinforcement learning rule that lets danger information spread
-> from the cell you died on to the cells around it, so the agent
-> avoids the whole neighborhood next time."
-
-> *Plain-English fallback for "A-star search":*
-> "A classic pathfinding algorithm — think Google Maps — that finds
-> the shortest route through a known map."
-
-> *Plain-English fallback for "hyperparameters":*
-> "The tuning knobs on the learning algorithm: how fast it learns,
-> how quickly it forgets, how much it penalizes danger."
+We chose this hybrid for three reasons. First, reinforcement learning handles delayed and sparse feedback, which is exactly our situation because the agent only discovers a cell is a fire after it has already died on it. A technique called TD-zero, which stands for temporal difference learning, lets that danger information spread from the cell of death to nearby cells, so the agent avoids the whole dangerous region rather than just one specific cell. Second, once the agent has observed an edge between two cells, that edge is deterministic forever, and classical A-star search can exploit that structure immediately, while a pure reinforcement-learning policy would need hundreds of episodes to learn the same paths. Third, the learned hyperparameters, which are the tuning knobs that control how the agent reacts to danger, transfer from alpha to beta even though the map itself resets. So we get the trial-and-error learning of reinforcement learning and the optimal-path-finding of classical search working together.
 
 ---
 
-## Slide 4 — Agent Architecture
+## Slide 4
 
-"The agent runs a simple loop. The environment returns a TurnResult,
-we integrate that into our world model, and then we plan. Integration
-updates the wall map, the per-phase fire sets, the teleport mapping,
-the confusion pad set, and the Q-table. Planning is a phase-aware
-breadth-first search with a goal-biased frontier selector. The
-planner returns between one and five actions, and that list is
-submitted to the environment. The RL layer is a sixty-four by
-sixty-four by four Q-table that decays between episodes so stale
-fear doesn't block otherwise-good paths."
-
-> *Plain-English fallback for "Q-table":*
-> "A big lookup table where each cell stores a learned danger score.
-> Higher score means 'I've died here, avoid it.'"
-
-> *Plain-English fallback for "breadth-first search":*
-> "A classic method for finding the shortest route through a known
-> map by exploring outward one step at a time."
-
-> *Plain-English fallback for "phase-aware":*
-> "The fires rotate on a schedule, so the planner doesn't just check
-> where fires are now — it checks where each fire will be when the
-> agent actually arrives at each cell along the path."
-
-> *Plain-English fallback for "decays between episodes":*
-> "Between runs we reduce the Q-table values so the agent isn't
-> permanently scared of cells it died on early while still being
-> bad at the game."
+The agent runs one simple loop. The environment returns a TurnResult, the agent updates its internal world model based on what just happened, the planner produces the next one to five actions, and those are submitted back to the environment. The integration step updates the wall map, the per-phase fire sets that track which cells are fires at which rotation, the teleport mapping, the confusion pad set, and the Q-table, which is a sixty-four by sixty-four by four lookup table where each cell at each rotation phase stores a learned danger score. A higher score means the agent has died there before and wants to avoid it. Between episodes we decay the Q-table, meaning we reduce every value by a fixed factor, so the agent isn't permanently afraid of cells where it died early while it was still bad at the game. The planner itself is a phase-aware breadth-first search, which is a classical method that finds the shortest route through a known map by exploring outward one step at a time, plus a goal-biased frontier selector that we'll explain later.
 
 ---
 
-## Slide 5 — Rotating Fire Hazards
+## Slide 5
 
-"The fires come in V-shaped clusters. Every five cumulative actions
-they rotate ninety degrees clockwise, pivoting around the tip of the
-V. We pre-compute all four rotation states at environment
-construction time so we never have to rotate them on the fly. The
-agent learns about a fire by dying on it, so we mark the exact phase
-of each death. To be conservative, we also treat any cell that has
-ever been a fire as dangerous across all phases by default, and only
-relax that when we need to squeeze through a timed corridor."
-
-> *Plain-English fallback for "four rotation states":*
-> "Each V-cluster has exactly four possible positions as it spins,
-> and the environment cycles through them every five actions. We
-> pre-compute all four so it's instant to look up."
+The fires come in V-shaped clusters, and every five cumulative actions they rotate ninety degrees clockwise around the tip of the V. So each cluster has exactly four possible configurations, and the environment cycles through all four every twenty actions. We pre-compute all four rotation states when the environment is built, so the look-up is instant during planning. The agent learns about a fire by dying on it, and when that happens we mark the exact rotation phase at which the death occurred. To be conservative by default, we also treat any cell that has ever been a fire as dangerous at every phase, and we only relax that rule when the agent absolutely needs to squeeze through a timed corridor. The figure on the right shows maze-beta's parsed hazard map in red.
 
 ---
 
-## Slide 6 — Mapping and Q-Learning
+## Slide 6
 
-"Each maze gets its own world model. We maintain a trit-valued edge
-map where minus one is unknown, zero is open, and one is wall. We
-keep four per-phase fire sets, a teleport source-to-destination
-mapping, a confusion pad set, and the Q-table. When the agent dies
-at cell s in phase phi, the Q-table is updated by TD-zero using the
-death penalty, and the signal propagates to Manhattan neighbors with
-a geometric decay. What actually transfers between mazes is the
-RiskConfig, which holds the learning rate, the decay factor, and the
-penalty scale. The per-cell Q-values reset."
-
-> *Plain-English fallback for "trit-valued edge map":*
-> "For every possible step between adjacent cells, we store one of
-> three values: we haven't tried it, it's open, or it's a wall."
-
-> *Plain-English fallback for "Manhattan neighbors":*
-> "Manhattan distance is just taxicab distance — how many up-down
-> and left-right steps between two cells, ignoring diagonals."
-
-> *Plain-English fallback for "geometric decay":*
-> "The further you get from the cell where the agent died, the
-> smaller the danger score. It fades with distance."
-
-> *Plain-English fallback for "RiskConfig":*
-> "Our name for the bundle of tuning knobs that describe how the
-> agent reacts to danger. That bundle carries over between mazes."
+Every maze gets its own internal world model. We keep a trit-valued edge map, which just means every possible step between adjacent cells is one of three values: unknown, open, or wall. We keep four per-phase fire sets for the rotating clusters, a teleport source-to-destination mapping, a confusion pad set, and the Q-table. When the agent dies at some cell at some phase, we apply a TD-zero update, meaning we raise the Q-value at that cell and also propagate the danger signal to the Manhattan neighbors, which is a taxicab-distance measure ignoring diagonals, with a geometric decay, so cells further away get a smaller share of the danger. What actually transfers between mazes is a bundle we call the RiskConfig, which holds the learning rate, the decay factor, and the penalty scale. The per-cell Q-values reset between mazes because each maze has a different layout.
 
 ---
 
-## Slide 7 — Planner: Weighted A*
+## Slide 7
 
-"The edge cost into cell n at phase phi has five terms. The base
-cost is one, and then we add a fire penalty if the cell is a known
-fire at the arrival phase, a confusion penalty if it's a known
-confusion pad, the learned Q-value scaled by its weight, and a
-visit-count penalty to prevent oscillation. The planner runs in two
-passes. The strict pass blocks every cell that has ever been a fire
-at any phase, and the relaxed pass only blocks fires at the current
-arrival phase. If both passes fail to reach the goal, we fall back
-to frontier exploration. When submitting actions we batch greedily.
-We keep appending actions to the batch as long as each next edge is
-known-open and the landing cell is known-safe at its arrival phase,
-and we stop at the first uncertain step so we can observe its
-outcome."
-
-> *Plain-English fallback for "edge cost":*
-> "Basically, how 'expensive' it is to step into a particular cell.
-> The planner prefers the path with the lowest total cost."
-
-> *Plain-English fallback for "visit-count penalty to prevent
-> oscillation":*
-> "If the agent visits the same cell a lot, we start charging extra
-> for going back there. That stops it from bouncing forever between
-> two cells."
-
-> *Plain-English fallback for "frontier exploration":*
-> "If the planner can't find a safe path to the goal, it heads for
-> the edge of the known map to discover new territory instead."
+The planner treats each possible step as having an edge cost, which is how expensive it is to move into that cell. The formula is one base point, plus a fire penalty if the cell is a known fire at the arrival phase, plus a confusion penalty if it's a confusion pad, plus the learned Q-value scaled by its weight, plus a visit-count penalty that charges extra for revisiting the same cell to stop the agent from bouncing back and forth. The planner runs in two passes. The strict pass blocks every cell that has ever been a fire at any phase, and the relaxed pass only blocks fires at the actual arrival phase. If both passes fail to find the goal, we fall back to frontier exploration, which means we head for the edge of the known map to discover new territory. When submitting actions we batch greedily: we keep appending moves up to five as long as each next step is known to be safe at its arrival phase, and we stop at the first uncertain step so we can observe its outcome before planning further.
 
 ---
 
-## Slide 8 — Working Demo: maze-beta (learning → optimal)
+## Slide 8
 
-"Maze-beta has a completely different layout from alpha. It has two
-teleport pads, five confusion pads, fifty-four fire cells across the
-V-clusters, and most importantly a narrow approach corridor to the
-goal. The goal cell is at row zero, column thirty-one. Three of its
-four sides are walls — so there's only one open neighbor it can be
-stepped into from, which is the cell to its right. And to get to
-that neighbor, the agent has to come up through a four-cell corridor
-from below. We never train on beta — same hyperparameters as alpha.
-The goal-biased frontier BFS is what lets the agent discover that
-corridor.
-
-We have two GIFs on this slide, one for each phase of the agent's
-behavior on beta.
-
-On the left is episode one, the reinforcement-learning phase. The
-agent starts blind — it knows nothing about the maze layout or where
-the fires are. It explores by trying to move, bumps into walls,
-steps on fires and dies, respawns at the start, and gradually builds
-an internal map. You can watch it discover larger and larger regions
-of the maze. It dies forty-nine times and takes five thousand two
-hundred turns on this first run, but by the end of the episode it
-has found the goal.
-
-On the right is a later episode, after the map has been learned.
-Now the classical search layer takes over — the phase-aware
-breadth-first search plans the optimal path on the learned map, and
-the agent walks it cleanly in about eighty turns with zero deaths.
-This is the converged behavior, and it holds steady through
-episodes three, four, and five. Together the two GIFs show the
-hybrid in action — reinforcement learning to build knowledge, and
-classical search to exploit it."
-
-> *Plain-English fallback for "approach corridor":*
-> "The goal cell has walls on three of its four sides, so there's
-> only one neighbor cell you can step in from. The agent has to
-> find that specific neighbor, and the cells leading up to it, by
-> exploration."
-
-> *Plain-English fallback for "goal-biased frontier BFS":*
-> "When the agent can't find a safe path to the goal, instead of
-> picking the nearest unexplored spot, we pick the unexplored spot
-> closest to the goal. That nudges exploration in the right
-> direction."
-
-> *Plain-English fallback for "converged":*
-> "By the third episode the agent has stopped exploring and just
-> replays the shortest path it found — same number of turns, same
-> route, every time."
-
-*(Left GIF: `figures/beta_demo_exploration.gif` — Episode 1, 5204
-turns, RL exploration.)*
-*(Right GIF: `figures/beta_demo_converged.gif` — Episode 3+, ~80
-turns, BFS-optimal converged path.)*
+This slide has two animations, both on maze-beta. On the left is episode one, the reinforcement-learning phase. The agent starts knowing nothing about the maze, so it bumps around, steps on fires, dies and respawns at the start, and gradually builds its internal map. By the end of the episode it has explored enough territory to find the goal, but it took five thousand two hundred turns and forty-nine deaths to get there. On the right is a later episode, after the map has been learned. Now the classical search layer takes over, the phase-aware breadth-first search plans the optimal path directly, and the agent walks it cleanly in eighty turns with zero deaths. We call this converged behavior, meaning the agent has stopped exploring and just replays the shortest path it found, and it holds steady through episodes three, four, and five. Together the two animations are the whole hybrid in action: reinforcement learning to build knowledge, and classical search to exploit it.
 
 ---
 
-## Slide 9 — Results
+## Slide 9
 
-"Here are the numbers from a five-episode evaluation on each maze.
-On alpha the agent succeeded every single time for a hundred-percent
-success rate, with an average of one thousand fifteen turns and a
-death rate of zero point zero zero three. Episodes two through five
-all converge to the eighty-seven-turn BFS-optimal path with zero
-deaths each. On beta the agent also succeeds every single time —
-again one hundred percent — with an average of one thousand one
-hundred seventy-eight turns and a death rate of zero point zero zero
-nine. Episodes three through five converge to an eighty-turn path
-with zero deaths. Both mazes comfortably beat the specification's
-expected and stretch-goal benchmarks."
-
-> *Plain-English fallback for "converge":*
-> "By episode three the agent has stopped exploring and just replays
-> the shortest path it discovered. Same number of turns, same path,
-> every time."
+On both mazes the agent succeeds every single time across five evaluation episodes, for a one-hundred percent success rate. On alpha, the average across all five episodes is one thousand fifteen turns with a death rate of zero point zero zero three, and episodes two through five all converge to an eighty-seven-turn optimal path with zero deaths each. On beta, where we are not allowed to train, the average is one thousand one hundred seventy-eight turns with a death rate of zero point zero zero nine, and episodes three through five converge to an eighty-turn path with zero deaths. The specification lists an expected-performance bar and a stretch-goal bar, and we comfortably beat the stretch goals on both mazes.
 
 ---
 
-## Slide 10 — Bonus Opportunities
+## Slide 10
 
-"We targeted three of the bonus opportunities. The first is the
-maze-gamma attempt. We ran a full evaluation on gamma, and the agent
-discovered one of the two teleport pads and reached a Manhattan
-distance of twenty-five from the goal, but it didn't solve within
-the turn budget. The spec awards five points just for attempting.
-The second is novel visualization. We built a six-panel solution
-dashboard that unifies the static maps, agent trajectories,
-convergence plots, and final metrics for both mazes into one image,
-and the script that generates it is included in the source tree.
-That's worth up to five points. The third is open-source toolkit
-release. The repository ships with an MIT license, a complete README
-including installation steps and a public-API example, and the code
-is spec-agnostic so any parsed sixty-four by sixty-four maze can
-plug in. That's also worth up to five points. The specification caps
-total bonus at ten."
-
-> *Plain-English fallback for "spec-agnostic":*
-> "Our code doesn't assume any specific maze. Drop in any
-> sixty-four by sixty-four maze file and it runs."
+We targeted three of the bonus opportunities the specification lists. First, we ran a five-episode evaluation on maze-gamma, the extra-credit maze with wind hazards. The agent discovered one of the two teleport pads and reached a Manhattan distance of twenty-five from the goal, but it did not solve within the turn budget. The specification awards five points just for attempting gamma. Second, we built a novel visualization, which is the six-panel dashboard on the right side of this slide. It unifies the static maps, agent trajectories, convergence plots, and final metrics for both mazes into one image. Third, we packaged the project as an open-source toolkit release, with an MIT license, a complete README including installation steps and a public-API example, and spec-agnostic code, which means any parsed sixty-four by sixty-four maze file can be dropped in and our code will run on it. The specification caps total bonus points at ten.
 
 ---
 
-## Slide 11 — What Turned Beta from "Unsolvable" to 100%
+## Slide 11
 
-"Three targeted fixes are what took beta from unsolvable to a clean
-one-hundred percent. The first was an off-by-one bug in the phase
-calculation. The environment checks pit collisions using the
-pre-increment phase, but our original planner was using the
-post-increment phase, which meant every fifth planned step landed
-directly on a fire. The second was goal-biased frontier targeting.
-When no known-safe path to the goal existed, we started enumerating
-all known-open cells that still had at least one unknown edge,
-sorting them by Manhattan distance to the goal, and running BFS to
-the closest one. Without that change, the agent's nearest-frontier
-heuristic kept pulling it into a local pocket on the wrong side of
-the maze. The third fix was an A-star cycle guard. The negative-cost
-teleport bonus could produce cycles in the parent map during path
-reconstruction, and the reconstruction loop was spinning forever.
-We fixed it by flooring edge costs at zero-point-zero-five and
-adding a seen-set guard in path recovery."
-
-> *Plain-English fallback for "off-by-one bug":*
-> "A subtle timing mistake where we were checking the fire position
-> one action too late. Every fifth action walked right into a fire
-> because of it."
-
-> *Plain-English fallback for "negative-cost teleport bonus":*
-> "We gave the planner a discount for using teleports that shortcut
-> toward the goal. But the discount was too generous — it made some
-> routes feel shorter than they actually were — and that created
-> infinite loops in the path reconstruction."
-
-> *Plain-English fallback for "seen-set guard":*
-> "We now track which cells we've already visited while rebuilding
-> the path, and stop if we'd revisit one. Infinite loops are
-> impossible."
+Three targeted fixes took beta from unsolvable to a clean one-hundred percent. The first was an off-by-one bug in the phase calculation, meaning we were checking the fire position one action too late. The environment checks pit collisions using the phase before it increments, but our planner was using the phase after, so every fifth planned step walked directly into a fire. The second fix was goal-biased frontier targeting. When the agent had no known-safe path to the goal, instead of picking the nearest unexplored cell, which was dragging the agent into a local pocket on the wrong side of the maze, we started enumerating all unexplored cells and picking the one closest to the goal by Manhattan distance. The third fix was an A-star cycle guard. We had given the planner a discount for using teleports that shortcut toward the goal, but the discount was too generous and produced negative-weight cycles in the parent map, meaning the path-reconstruction loop could spin forever because the costs cancelled out. We fixed it by flooring every edge cost at a small positive number and adding a seen-set check during path recovery that breaks the loop if we ever try to revisit any cell.
 
 ---
 
-## Slide 12 — Conclusion & Lessons Learned
+## Slide 12
 
-"To wrap up, our hybrid agent reaches one-hundred percent success on
-both alpha and beta across five evaluation episodes each, with no
-training on beta. Episode one is the exploration phase on either
-maze, and from episode two onward the agent runs the BFS-optimal
-path in eighty to eighty-seven turns with zero deaths. The biggest
-lesson was that a purely nearest-frontier explorer would have been
-defeated by beta's goal cell, which is walled off on three sides
-and only approachable through one specific corridor. Goal-biased
-frontier targeting is what made the transfer work. Our AI usage is
-fully disclosed in the report — we used Claude Code with the Opus
-four-point-seven one-million-context model. Thank you, and we're
-happy to take questions."
-
----
-
-## Demo slide — what's shown
-
-The slide displays TWO GIFs side-by-side:
-
-**Left (Episode 1 — RL Exploration):**
-`figures/beta_demo_exploration.gif` — cold-start run. Agent knows
-nothing about the map. 5204 turns, 49 deaths, eventually reaches
-the goal. This is the reinforcement-learning phase — the agent
-literally learning the maze.
-
-**Right (Episode 3+ — BFS-Optimal Converged):**
-`figures/beta_demo_converged.gif` — after the map is learned.
-~80 turns, 0 deaths, clean optimal path. This is the classical-
-search payoff — the phase-aware BFS planning on the learned map.
-
-Final-frame still fallbacks (shown automatically if GIFs don't
-play): `beta_demo_exploration_final.png` and
-`beta_demo_converged_final.png`.
-
-## Q&A Crib Sheet
-
-- **Why reinforcement learning over pure classical search?**
-  Because the fire layout is not knowable in advance, the reward
-  signal is delayed and sparse, and the RiskConfig hyperparameters
-  we learn on alpha actually transfer to beta even when the map
-  resets.
-
-- **Why not pure classical search?**
-  Because a fresh maze has no known edges, so search has nothing to
-  plan over until exploration fills in the edge map.
-
-- **Why doesn't gamma solve?**
-  Gamma's goal is only reachable through a specific teleport, and
-  our current planner only discovers teleports by accidentally
-  walking over a source. Adding an explicit teleport-source
-  prospector would fix it; we ran out of time before the submission
-  deadline.
-
-- **How fast is each plan?**
-  About three milliseconds per turn on alpha, and about fifty
-  milliseconds per turn on beta. Beta has more learned fire cells,
-  so the phase-aware BFS has a larger effective state space.
-
-- **What if the goal were on an isolated island?**
-  Frontier search would keep exploring until every reachable region
-  of the map was discovered, then declare failure and terminate the
-  episode.
-
-- **AI usage?**
-  Claude Code was used for scaffolding, debugging stack traces, and
-  iterating on the Q-decay schedule. Every algorithmic decision —
-  the fire-marking strategy, the BFS layering, and the three key
-  bug fixes we just discussed — was made by us and is documented in
-  the report.
+To wrap up, our hybrid reinforcement-learning-plus-A-star agent reaches one-hundred percent success on both maze-alpha and maze-beta, five out of five evaluation episodes each, with no training on beta. Episode one is the reinforcement-learning exploration phase, and from episode two onward the agent runs the classical-search optimal path in eighty to eighty-seven turns with zero deaths. The biggest lesson was that a purely nearest-frontier explorer would have been defeated by beta's walled-off goal, which can only be reached through one specific four-cell corridor, and goal-biased frontier targeting is what made the transfer from alpha to beta work. Our AI usage is fully disclosed in the report: we used Claude Code with the Opus four-point-seven one-million-context model. Thank you, and we're happy to take questions.
