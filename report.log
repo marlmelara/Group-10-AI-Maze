@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2026 01:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  24 APR 2026 19:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -509,103 +509,134 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local
 [2]
 
 [3]
-<figures/map_alpha.png, id=120, 626.34pt x 642.7212pt>
+Underfull \hbox (badness 1028) in paragraph at lines 238--238
+[]\T1/cmr/m/n/10.95 Table 2: |Maze-alpha train-ing break-down (3 episodes). Epi
+sode 1 is purely ex-ploratory;
+ []
+
+
+
+[4]
+<figures/map_alpha.png, id=132, 626.34pt x 642.7212pt>
 File: figures/map_alpha.png Graphic file (type png)
 <use figures/map_alpha.png>
-Package pdftex.def Info: figures/map_alpha.png  used on input line 218.
+Package pdftex.def Info: figures/map_alpha.png  used on input line 291.
 (pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/trajectory_alpha.png, id=122, 626.34pt x 642.7212pt>
+<figures/trajectory_alpha.png, id=134, 626.34pt x 642.7212pt>
 File: figures/trajectory_alpha.png Graphic file (type png)
 <use figures/trajectory_alpha.png>
-Package pdftex.def Info: figures/trajectory_alpha.png  used on input line 219.
+Package pdftex.def Info: figures/trajectory_alpha.png  used on input line 292.
 (pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/learning_curve_alpha.png, id=123, 859.0494pt x 356.532pt>
+<figures/learning_curve_alpha.png, id=135, 859.0494pt x 356.532pt>
 File: figures/learning_curve_alpha.png Graphic file (type png)
 <use figures/learning_curve_alpha.png>
-Package pdftex.def Info: figures/learning_curve_alpha.png  used on input line 2
-28.
+Package pdftex.def Info: figures/learning_curve_alpha.png  used on input line 3
+01.
 (pdftex.def)             Requested size: 244.27461pt x 101.37874pt.
 
 
-[4 <./figures/map_alpha.png> <./figures/trajectory_alpha.png>]
-<figures/heatmap_alpha.png, id=132, 626.34pt x 642.7212pt>
+[5 <./figures/map_alpha.png> <./figures/trajectory_alpha.png>]
+<figures/heatmap_alpha.png, id=144, 626.34pt x 642.7212pt>
 File: figures/heatmap_alpha.png Graphic file (type png)
 <use figures/heatmap_alpha.png>
-Package pdftex.def Info: figures/heatmap_alpha.png  used on input line 237.
+Package pdftex.def Info: figures/heatmap_alpha.png  used on input line 310.
 (pdftex.def)             Requested size: 258.36668pt x 265.12576pt.
+<figures/alpha_demo_exploration_strip.png, id=145, 3631.5675pt x 931.48pt>
+File: figures/alpha_demo_exploration_strip.png Graphic file (type png)
+<use figures/alpha_demo_exploration_strip.png>
+Package pdftex.def Info: figures/alpha_demo_exploration_strip.png  used on inpu
+t line 319.
+(pdftex.def)             Requested size: 469.75502pt x 120.48547pt.
+<figures/alpha_demo_converged_strip.png, id=146, 3631.5675pt x 931.48pt>
+File: figures/alpha_demo_converged_strip.png Graphic file (type png)
+<use figures/alpha_demo_converged_strip.png>
+Package pdftex.def Info: figures/alpha_demo_converged_strip.png  used on input 
+line 320.
+(pdftex.def)             Requested size: 469.75502pt x 120.48547pt.
 
 
-[5 <./figures/learning_curve_alpha.png> <./figures/heatmap_alpha.png>]
-<figures/map_beta.png, id=143, 626.34pt x 642.7212pt>
+[6 <./figures/learning_curve_alpha.png> <./figures/heatmap_alpha.png>]
+
+[7 <./figures/alpha_demo_exploration_strip.png (PNG copy)> <./figures/alpha_dem
+o_converged_strip.png (PNG copy)>]
+<figures/map_beta.png, id=163, 626.34pt x 642.7212pt>
 File: figures/map_beta.png Graphic file (type png)
 <use figures/map_beta.png>
-Package pdftex.def Info: figures/map_beta.png  used on input line 287.
+Package pdftex.def Info: figures/map_beta.png  used on input line 375.
 (pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/trajectory_beta.png, id=144, 626.34pt x 642.7212pt>
+<figures/trajectory_beta.png, id=164, 626.34pt x 642.7212pt>
 File: figures/trajectory_beta.png Graphic file (type png)
 <use figures/trajectory_beta.png>
-Package pdftex.def Info: figures/trajectory_beta.png  used on input line 288.
+Package pdftex.def Info: figures/trajectory_beta.png  used on input line 376.
 (pdftex.def)             Requested size: 225.4804pt x 231.37946pt.
-<figures/solution_dashboard.png, id=145, 925.056pt x 673.65964pt>
+<figures/solution_dashboard.png, id=165, 925.056pt x 673.65964pt>
 File: figures/solution_dashboard.png Graphic file (type png)
 <use figures/solution_dashboard.png>
-Package pdftex.def Info: figures/solution_dashboard.png  used on input line 297
+Package pdftex.def Info: figures/solution_dashboard.png  used on input line 385
 .
 (pdftex.def)             Requested size: 469.75502pt x 342.09193pt.
 
 
-[6 <./figures/map_beta.png> <./figures/trajectory_beta.png>]
+[8 <./figures/map_beta.png> <./figures/trajectory_beta.png>]
+<figures/beta_demo_exploration_strip.png, id=174, 3631.5675pt x 931.48pt>
+File: figures/beta_demo_exploration_strip.png Graphic file (type png)
+<use figures/beta_demo_exploration_strip.png>
+Package pdftex.def Info: figures/beta_demo_exploration_strip.png  used on input
+ line 397.
+(pdftex.def)             Requested size: 469.75502pt x 120.48547pt.
+<figures/beta_demo_converged_strip.png, id=175, 3631.5675pt x 931.48pt>
+File: figures/beta_demo_converged_strip.png Graphic file (type png)
+<use figures/beta_demo_converged_strip.png>
+Package pdftex.def Info: figures/beta_demo_converged_strip.png  used on input l
+ine 398.
+(pdftex.def)             Requested size: 469.75502pt x 120.48547pt.
 
-[7 <./figures/solution_dashboard.png>]
 
-[8]
+[9 <./figures/solution_dashboard.png>]
 
-[9]
+[10 <./figures/beta_demo_exploration_strip.png (PNG copy)> <./figures/beta_demo
+_converged_strip.png (PNG copy)>]
 
-[10] (./report.aux)
+[11]
+
+[12]
+
+[13] (./report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 7F759847171442896304DDA62B05BF09;3224.
+(rerunfilecheck)             Checksum: 8E4DD67484DE422CD0A0B4EDFEFC7CFF;3413.
  ) 
 Here is how much of TeX's memory you used:
- 13745 strings out of 473190
- 215876 string characters out of 5715801
- 631950 words of memory out of 5000000
- 36796 multiletter control sequences out of 15000+600000
+ 13785 strings out of 473190
+ 217310 string characters out of 5715801
+ 637283 words of memory out of 5000000
+ 36829 multiletter control sequences out of 15000+600000
  571664 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,520b,567s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{table.caption.5} has been referenced but does not e
-xist, replaced by a fixed one
-
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
-r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
-al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/
-texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texl
-ive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texliv
-e/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/
-2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025
-/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025/t
-exmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025/tex
-mf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on report.pdf (10 pages, 930872 bytes).
+ 75i,12n,79p,632b,567s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
+usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loca
+l/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/
+texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texl
+ive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texliv
+e/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/
+2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/20
+25/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025
+/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025/t
+exmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on report.pdf (13 pages, 1976866 bytes).
 PDF statistics:
- 259 PDF objects out of 1000 (max. 8388607)
- 198 compressed objects within 2 object streams
- 45 named destinations out of 1000 (max. 500000)
- 196 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 289 PDF objects out of 1000 (max. 8388607)
+ 220 compressed objects within 3 object streams
+ 52 named destinations out of 1000 (max. 500000)
+ 224 words of extra memory for PDF output out of 10000 (max. 10000000)
 

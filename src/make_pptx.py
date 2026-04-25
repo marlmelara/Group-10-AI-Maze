@@ -88,7 +88,7 @@ def build():
     prs.slide_height = SLIDE_H
     BLANK = prs.slide_layouts[6]
 
-    total = 12
+    total = 13
 
     # ------------------- 1. Title -------------------
     s = prs.slides.add_slide(BLANK)
@@ -224,7 +224,58 @@ def build():
     ], left=0.6, top=1.4, width=12.1, height=5.5, font_size=20)
     add_footer(s, 7, total)
 
-    # ------------------- 8. Working Demo (the GIF slide) ---------
+    # ------------------- 8. Working Demo: alpha (NEW) ------------
+    s = prs.slides.add_slide(BLANK)
+    add_title_block(s, "Working Demo — maze-alpha:  Learning → Optimal")
+
+    # Left caption ABOVE image
+    cap = s.shapes.add_textbox(Inches(0.4), Inches(1.05),
+                               Inches(6.2), Inches(0.9))
+    tf = cap.text_frame; tf.word_wrap = True
+    p = tf.paragraphs[0]
+    p.text = "Episode 1 — RL Exploration"
+    p.font.size = Pt(20); p.font.bold = True; p.font.color.rgb = ACCENT
+    p.alignment = PP_ALIGN.CENTER
+    p = tf.add_paragraph()
+    p.text = "4796 turns • 16 deaths • agent learns the map from scratch"
+    p.font.size = Pt(13); p.alignment = PP_ALIGN.CENTER
+
+    # Left image (below its caption)
+    gif_a1 = FIG / "alpha_demo_exploration.gif"
+    fallback_a1 = FIG / "alpha_demo_exploration_final.png"
+    traj_a = FIG / "trajectory_alpha.png"
+    img_a1 = (gif_a1 if gif_a1.exists()
+              else fallback_a1 if fallback_a1.exists()
+              else traj_a if traj_a.exists() else None)
+    if img_a1 is not None:
+        s.shapes.add_picture(str(img_a1), Inches(0.7), Inches(2.1),
+                             width=Inches(5.6))
+
+    # Right caption ABOVE image
+    cap = s.shapes.add_textbox(Inches(6.7), Inches(1.05),
+                               Inches(6.2), Inches(0.9))
+    tf = cap.text_frame; tf.word_wrap = True
+    p = tf.paragraphs[0]
+    p.text = "Episode 2+ — BFS-Optimal (Converged)"
+    p.font.size = Pt(20); p.font.bold = True; p.font.color.rgb = ACCENT
+    p.alignment = PP_ALIGN.CENTER
+    p = tf.add_paragraph()
+    p.text = "87 turns • 0 deaths • clean BFS path on the learned map"
+    p.font.size = Pt(13); p.alignment = PP_ALIGN.CENTER
+
+    # Right image (below its caption)
+    gif_a2 = FIG / "alpha_demo_converged.gif"
+    fallback_a2 = FIG / "alpha_demo_converged_final.png"
+    img_a2 = (gif_a2 if gif_a2.exists()
+              else fallback_a2 if fallback_a2.exists()
+              else traj_a if traj_a.exists() else None)
+    if img_a2 is not None:
+        s.shapes.add_picture(str(img_a2), Inches(7.0), Inches(2.1),
+                             width=Inches(5.6))
+
+    add_footer(s, 8, total)
+
+    # ------------------- 9. Working Demo: beta (existing) --------
     s = prs.slides.add_slide(BLANK)
     add_title_block(s, "Working Demo — maze-beta:  Learning → Optimal")
 
@@ -276,7 +327,7 @@ def build():
         s.shapes.add_picture(str(img2), Inches(7.0), Inches(2.1),
                              width=Inches(5.6))
 
-    add_footer(s, 8, total)
+    add_footer(s, 9, total)
 
     # ------------------- 9. Results -------------------
     s = prs.slides.add_slide(BLANK)
@@ -315,7 +366,7 @@ def build():
               "No training on beta — spec requirement.")
     p.font.size = Pt(13)
     p.font.italic = True
-    add_footer(s, 9, total)
+    add_footer(s, 10, total)
 
     # ------------------- 10. Bonus Opportunities -------------------
     s = prs.slides.add_slide(BLANK)
@@ -356,7 +407,7 @@ def build():
         # Place the dashboard centered in that box.
         s.shapes.add_picture(str(dashboard), Inches(6.0), Inches(1.1),
                              width=Inches(7.0))
-    add_footer(s, 10, total)
+    add_footer(s, 11, total)
 
     # ------------------- 11. What made beta work -------------------
     s = prs.slides.add_slide(BLANK)
@@ -367,7 +418,7 @@ def build():
         "Goal-biased frontier targeting: enumerate known-open cells that still have an unknown edge, sort by Manhattan distance to goal, BFS to the closest one.",
         "A* cycle guard: negative-cost teleport bonuses could make came_from cycle; the reconstruction loop spun forever. Floored edge costs at 0.05 and added a seen-set guard.",
     ], left=0.6, top=1.5, width=12.1, height=5.5, font_size=19)
-    add_footer(s, 11, total)
+    add_footer(s, 12, total)
 
     # ------------------- 12. Conclusion -------------------
     s = prs.slides.add_slide(BLANK)
@@ -385,7 +436,7 @@ def build():
     p.font.size = Pt(36); p.font.bold = True
     p.font.color.rgb = ACCENT
     p.alignment = PP_ALIGN.CENTER
-    add_footer(s, 12, total)
+    add_footer(s, 13, total)
 
     prs.save(OUT)
     print(f"Wrote {OUT}")

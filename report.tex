@@ -182,6 +182,79 @@ Following the spec:
     of evaluation; only the learned hyper-parameters transfer.
 \end{enumerate}
 
+\subsection{Q-Learning Training Setup}
+
+The agent's learning machinery has two parts:
+(i) the persistent edge map and per-phase fire sets, which are
+\emph{per-maze} and reset before each new maze; and
+(ii) the \texttt{RiskConfig} hyper-parameters that govern the TD
+update, the planner edge costs, and the cross-episode $Q$ decay,
+which are \emph{global} and transfer from alpha to beta and gamma
+without retuning.  Table~\ref{tab:hparams} lists the values used in
+our submitted runs.  They were tuned by hand on maze-alpha during the
+second check-in and left unchanged for the final beta and gamma runs
+(no retraining allowed by spec on beta).
+
+\begin{table}[H]
+\centering
+\caption{\texttt{RiskConfig} hyper-parameters (\texttt{src/agent.py}).
+The same values apply to alpha (training + eval), beta (eval only),
+and gamma (eval only).}
+\label{tab:hparams}
+\begin{tabular}{lcl}
+\toprule
+Parameter & Value & Role \\
+\midrule
+TD learning rate $\alpha$         & 0.40        & Death-cell Q update strength. \\
+Geometric decay $\gamma$          & 0.80        & Death-penalty fade to neighbours. \\
+Death penalty $R_\text{death}$    & 60.0        & Q cost added on dying at a cell. \\
+Q episode decay                   & 0.25        & Q is multiplied by this between episodes. \\
+Q weight $w_Q$                    & 0.02        & Scale of $Q$ in A* edge cost. \\
+Fire (any phase) cost             & 20.0        & Penalty for a cell that has ever burned. \\
+Fire (current phase) cost         & $10^{6}$    & Hard block at the arrival phase. \\
+Confusion cost                    & 6.0         & Penalty for entering a confusion pad. \\
+Teleport unknown cost             & 8.0         & Until a teleport's destination is known. \\
+Teleport progress bonus           & $-3.0$      & Once a teleport closes Manhattan distance. \\
+Unknown-edge cost                 & 0.30        & Optimistic surcharge on unobserved edges. \\
+Visit-penalty coefficient         & 0.08        & Scales the anti-oscillation visit count. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Training schedule.}  Per spec, the agent trained on maze-alpha
+for three episodes prior to the five-episode evaluation phase.
+Table~\ref{tab:alpha-train} shows the shape we see throughout the
+project: episode~1 explores blindly while the death-penalty Q-spread
+learns the V-fire phase pattern; by episode~2 the strict BFS on the
+now-known edge map collapses to the 87-turn / 0-death BFS-optimal
+route, and episode~3 confirms it.  No additional training was
+performed on beta or gamma.
+
+\begin{table}[H]
+\centering
+\caption{Maze-alpha training breakdown (3 episodes).  Episode~1 is
+purely exploratory; from episode~2 onward the agent runs the
+BFS-optimal path with zero deaths.  Source:
+\texttt{results/metrics\_alpha\_final.json}.}
+\label{tab:alpha-train}
+\begin{tabular}{rrrrrr}
+\toprule
+Episode & Turns & Actions & Deaths & Cells explored & Wall sec. \\
+\midrule
+1   & 4503 & 10645 & 11 & 1351 & 161.2 \\
+2   &   87 &   422 &  0 &  423 &  18.5 \\
+3   &   87 &   422 &  0 &  423 &  18.9 \\
+\midrule
+Avg & 1559 &  3830 & 3.7 &  732 &  66.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+After training, $Q$ is decayed by \texttt{q\_episode\_decay}$=0.25$
+between consecutive evaluation episodes so stale fear from earlier
+deaths does not permanently block corridors that are safe at later
+rotation phases.
+
 \subsection{Primary Metrics on maze-alpha}
 The agent reaches 100\% success on maze-alpha over 5 evaluation episodes.
 After the first exploratory episode (3739 turns, 2 deaths, 18.6 seconds),
@@ -239,6 +312,21 @@ of the learned map).}
 more often.  After the map is learned, traffic concentrates on the
 shortest known path.}
 \label{fig:heatmap}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/alpha_demo_exploration_strip.png}\\[2pt]
+\includegraphics[width=\textwidth]{figures/alpha_demo_converged_strip.png}
+\caption{Visual progression on maze-alpha.  \emph{Top row:} episode~1
+--- the agent (blue dot) explores blindly, dying on unseen V-fire
+cells and accumulating a crimson trail of every cell visited.
+\emph{Bottom row:} converged episode~2 --- with the edge map and
+per-phase fire sets learned, the strict BFS produces a clean
+87-turn path straight to the goal (red star).  Full animations:
+\texttt{figures/alpha\_demo\_exploration.gif} and
+\texttt{figures/alpha\_demo\_converged.gif}.}
+\label{fig:alpha-strip}
 \end{figure}
 
 \subsection{Transfer to maze-beta}
@@ -302,6 +390,22 @@ plot showing turns-to-goal dropping across 5 evaluation episodes
 for both mazes on a log-scale y-axis.  A single image that tells
 the full story of the agent's behavior on both mazes.}
 \label{fig:dashboard}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/beta_demo_exploration_strip.png}\\[2pt]
+\includegraphics[width=\textwidth]{figures/beta_demo_converged_strip.png}
+\caption{Visual progression on maze-beta (no training).
+\emph{Top row:} episode~1 --- 5203 turns, 49 deaths spent
+discovering the V-fire rotations and the single-entry chute to the
+exit.  \emph{Bottom row:} converged episode~3 --- the agent runs
+the 80-turn BFS-optimal path entering the exit chute via $(2,32)
+\to (1,32) \to (0,32) \to (0,31)$ on the learned map.
+Full animations:
+\texttt{figures/beta\_demo\_exploration.gif} and
+\texttt{figures/beta\_demo\_converged.gif}.}
+\label{fig:beta-strip}
 \end{figure}
 
 The critical planner change that made beta solvable was adding an
@@ -454,6 +558,12 @@ bonuses can no longer produce infinite loops.
 
 The codebase, figures, and \texttt{metrics.json} are included with
 this submission.  A live matplotlib demo on maze-beta can be launched
-with \verb|python src/live_demo.py --maze beta|.
+with \verb|python src/live_demo.py --maze beta|.  Animated GIFs of
+episode~1 and the converged episode for both maze-alpha and maze-beta
+are provided alongside the report as
+\texttt{figures/\{alpha,beta\}\_demo\_\{exploration,converged\}.gif}
+for visual reference; the corresponding 4-panel still strips
+(Figures~\ref{fig:alpha-strip} and~\ref{fig:beta-strip}) embed the
+same evidence inline for printed copies.
 
 \end{document}
